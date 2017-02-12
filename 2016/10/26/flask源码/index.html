@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>flask源码 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="flask源码flask现在的源码太杂，先看简单的第一版源码。通过git checkout出。只有一个文件(flask.py)，356行！！！！！！！
+了解了wsgi基本原理之后，通过跟踪数据流的方式来看flask源码。wsgi的application端需要提供一个可调用的对象，flask提供的可调用对象就是Flask类的实例。
+先看flask程序的简单结构
+from flask import F">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flask源码">
+<meta property="og:url" content="http://yoursite.com/2016/10/26/flask源码/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="flask源码flask现在的源码太杂，先看简单的第一版源码。通过git checkout出。只有一个文件(flask.py)，356行！！！！！！！
+了解了wsgi基本原理之后，通过跟踪数据流的方式来看flask源码。wsgi的application端需要提供一个可调用的对象，flask提供的可调用对象就是Flask类的实例。
+先看flask程序的简单结构
+from flask import F">
+<meta property="og:updated_time" content="2016-10-26T12:55:02.462Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="flask源码">
+<meta name="twitter:description" content="flask源码flask现在的源码太杂，先看简单的第一版源码。通过git checkout出。只有一个文件(flask.py)，356行！！！！！！！
+了解了wsgi基本原理之后，通过跟踪数据流的方式来看flask源码。wsgi的application端需要提供一个可调用的对象，flask提供的可调用对象就是Flask类的实例。
+先看flask程序的简单结构
+from flask import F">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-flask源码" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/26/flask源码/" class="article-date">
+  <time datetime="2016-10-26T08:42:26.000Z" itemprop="datePublished">2016-10-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      flask源码
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="flask源码"><a href="#flask源码" class="headerlink" title="flask源码"></a>flask源码</h2><p>flask现在的源码太杂，先看简单的第一版源码。通过git checkout出。<br>只有一个文件(flask.py)，356行！！！！！！！</p>
+<p>了解了wsgi基本原理之后，通过跟踪数据流的方式来看flask源码。<br>wsgi的application端需要提供一个可调用的对象，flask提供的可调用对象就是Flask类的实例。</p>
+<p>先看flask程序的简单结构</p>
+<pre><code>from flask import Flask
+
+app = Flask(__name__)
+
+@app.route(&apos;/&apos;)
+def index():
+    pass
+
+if __name__ == &quot;__main__&quot;:
+    app.run()
+</code></pre><p>当构建Flask实例之前做了什么？<br>在导入模块是执行了</p>
+<pre><code>_request_ctx_stack = LocalStack()
+current_app = LocalProxy(lambda: _request_ctx_stack.top.app)
+request = LocalProxy(lambda: _request_ctx_stack.top.request)
+session = LocalProxy(lambda: _request_ctx_stack.top.session)
+g = LocalProxy(lambda: _request_ctx_stack.top.g)
+</code></pre><p>具体细节先不管，可以简单理解为构造了一个本地栈，并生成本地上下文。<br>既然current_app, request, session, g都是在这时候生成的，为什么官方文档上说current_app,g为应用上下文，而request， session是请求上下文呢？</p>
+<p>当我们通过Flask类产生实例对象时又做了什么？</p>
+<pre><code>self.view_functions = {}
+self.error_handlers={}
+self.request_init_funcs = []
+self.reequest_shutdown_funcs = []
+self.url_map = Map()
+
+......设置static映射
+......设置jinja环境
+</code></pre><p>简单来说就是就是产生一系列数据结构供以后使用。</p>
+<pre><code>@app.route(&apos;/&apos;)
+def index():
+    pass
+</code></pre><p>route 函数干了什么</p>
+<pre><code>def route（self， rule， ××options）：
+    def decorator(f):
+        if &apos;endpoint&apos; not in options:
+            options[&apos;endpoint&apos;] = f.__name__
+        self.url_map.add(Rule(rule, **options))
+        self.view_functions[options[&apos;endpoint&apos;]] = f
+        return f
+    return decorator
+</code></pre><p>通过修饰器将修饰的函数注册到self.view_functions和self.url_map中。<br>endpoint 是一个key-argument，没见使用过，根据源码应该就是给修饰的函数取个别名，用于之后的映射。相当于django中url函数的第三个参数！！！</p>
+<p>errorhandler, request_init(现在flask中为before_request), request_shutdown(现在为after_request)，提供相似的功能。</p>
+<blockquote>
+<p>   第一版flask并没有提供blueprint，但是通过上面的处理方法可以想象，<br>   应该在register_blueprint的时候将blueprint的视图函数与规则注册从blueprint的结构中引入到app中。</p>
+</blockquote>
+<p>准备就绪调用Flask的run()方法，通过werkzeug提供的run_simple启动一个简单的wsgi服务器来供调试时使用</p>
+<p>程序完成之后wsgi怎么调用呢？<br>flask官方文档给出了部署方法以uwsgi为例</p>
+<pre><code>$ uwsgi -s /tmp/uwsgi.sock --manage-script-name --mount /yourapplication=myapp:app
+</code></pre><p>最后/yourapplication=myapp:app就是告诉uwsgi，我的可调用对象是myapp模块中的名为app的flask实例</p>
+<p>部署之后的数据流：</p>
+<ol>
+<li>wsgi服务器有request到来</li>
+<li>wsgi调用flask实例(app)</li>
+<li><p>执行app.<strong>call</strong>()</p>
+<pre><code>def __call__(self, environ, start_response):
+    return self.wsgi_app(environ, start_response)
+</code></pre></li>
+<li><p><strong>call</strong>调用wsgi_app函数</p>
+<pre><code>def wsgi_app(self, environ, start_response):
+    _request_ctx_stack.push(_RequestContext(self, environ))
+    try:
+        rv = self.preprocess_request()
+        if rv is None:
+            rv = self.dispatch_request()
+        response = self.make_response(rv)
+        response = self.process_response(response)
+        return response(environ, start_response)
+    finally:
+        _request_ctx_stack.pop()
+</code></pre></li>
+</ol>
+<p>下面看下wsgi_app的执行过程。</p>
+<ol>
+<li>产生request上下文并且入栈<blockquote>
+<p> _RequestContext根据environ设置request，又根据request设置session<br> 再重置g中的值，这就是为什么request和session是请求上下文的原因， 而g虽然每次请求都会重置但是它每次重置结果并不依赖于传入的environ,所以为应用上下文。</p>
+</blockquote>
+</li>
+<li>执行由request_init修饰器修饰的函数，</li>
+<li>如果预处理函数产生输出怎么跳过剩下的处理过程直接构建response</li>
+<li>如果预处理函数无输出怎么向下递交request给视图函数</li>
+<li>构建response并返回</li>
+<li>request上下文出栈</li>
+</ol>
+<p>再来看看response的构建过程。</p>
+<pre><code>def make_response(self, rv):
+    if isinstance(rv, self.response_class):
+        return rv
+    if isinstance(rv, basestring):
+        return self.response_class(rv)
+    if isinstance(rv, tuple):
+        return self.response_class(*rv)
+    return self.response_class.force_type(rv, request.environ)
+</code></pre><p>根据传入的不同结果选择行为， 最后都是返回一个response_class实例</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/26/flask源码/" data-id="ciz29nckw00019kfg3a3k6z7d" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/28/redis命令/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          redis命令
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/26/flask-wsgi/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">flask源码--理解wsgi</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/jinja2/">jinja2</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/jinja2/" style="font-size: 10px;">jinja2</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/02/12/jinja2-Template/">jinja2-模板对象</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/11/sqlalchemy源码之Query/">sqlalchemy源码之Query</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/07/flask-redirect相关/">flask-redirect相关</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/28/redis-py/">redis-py</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/28/redis命令/">redis命令</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

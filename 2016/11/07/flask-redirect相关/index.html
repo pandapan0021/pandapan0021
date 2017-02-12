@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>flask-redirect相关 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在使用flask-login时，由login_required跳转到login_view完成登录之后可以由request.arg[‘next’]跳转回登录前的页面。那不是由login_required产生的跳转怎么样主动重定向回之前的视图呢？先看一下flask-login的做法：源码flask_login/utils.py
+def login_required(func):
+    @wraps(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flask-redirect相关">
+<meta property="og:url" content="http://yoursite.com/2016/11/07/flask-redirect相关/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在使用flask-login时，由login_required跳转到login_view完成登录之后可以由request.arg[‘next’]跳转回登录前的页面。那不是由login_required产生的跳转怎么样主动重定向回之前的视图呢？先看一下flask-login的做法：源码flask_login/utils.py
+def login_required(func):
+    @wraps(">
+<meta property="og:updated_time" content="2016-11-07T12:22:20.165Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="flask-redirect相关">
+<meta name="twitter:description" content="在使用flask-login时，由login_required跳转到login_view完成登录之后可以由request.arg[‘next’]跳转回登录前的页面。那不是由login_required产生的跳转怎么样主动重定向回之前的视图呢？先看一下flask-login的做法：源码flask_login/utils.py
+def login_required(func):
+    @wraps(">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-flask-redirect相关" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/07/flask-redirect相关/" class="article-date">
+  <time datetime="2016-11-07T08:48:23.000Z" itemprop="datePublished">2016-11-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      flask-redirect相关
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在使用flask-login时，由login_required跳转到login_view完成登录之后可以由request.arg[‘next’]跳转回登录前的页面。<br>那不是由login_required产生的跳转怎么样主动重定向回之前的视图呢？<br>先看一下flask-login的做法：<br>源码flask_login/utils.py</p>
+<pre><code>def login_required(func):
+    @wraps(func)
+    def decorated_view(*args, **kwargs):
+        if request.method in EXEMPT_METHODS:
+ #  EXEMPT_METHODS = [&apos;optionh&apos;]
+            return func(*args, **kwargs)
+        elif current_app.login_manager._login_disabled:
+            return func(*args, **kwargs)
+        elif not current_user.is_authenticated:
+            return current_app.login_manager.unauthorized()
+        return func(*args, **kwargs)
+    return edcorated_view
+</code></pre><p>忽略判断语句只看用户未登录时执行的动作，login_manager为LoginManager的实例。<br>源码flask_login/login_manager.py</p>
+<pre><code>class LoginManager(object):
+    ......
+    def unauthorized(self):
+        user_unauthorized.send(current_app._get_current_object())
+        if self.unauthorized_callback:
+            reurn self.unauthorized_callback()
+        if request.blueprint in self.blueprint_login_views:
+            login_view = self.blueprint_login_views[request.blueprint]
+        else:
+            login_view = self.login_view
+        if not login_view:
+            abort(401)
+        if self.login_message:
+            if self.localize_callback is not NOne:
+                flash(self.localize_callback(self.login_message), category=self.login_message_category)
+            else:
+                flash(self.login_message, category=self.login_message_category)
+         return redirect(login_url(login_view, request.url))
+</code></pre><p>最后重定向到了login_url(login_view, request.url)</p>
+<p>flask_login/utils</p>
+<pre><code>def logni_url(login_view, next_url=None, next_field=&apos;next&apos;):
+    ........
+    base=url_for(login_view)
+    parts=list(urlparse(base))
+    md = url_decode(parts[4])
+    md[next_field]=make_next_param(base, next_url)
+    parts[4] = url_encode(md, sort=True)
+    return urlunparse(parts)
+</code></pre><p>request.url是的形如<a href="http://www.example.com/myapplication/π/page.html?x=y的当前完整路径。" target="_blank" rel="external">http://www.example.com/myapplication/π/page.html?x=y的当前完整路径。</a><br>可以看出flask_login做法就是把request.url做成next参数，查api可知request对于当前uri的属性一共有6个：<br>        path<br>        full_path<br>        script_root<br>        base_url<br>        url<br>        url_root<br>这些属性都是从werkzeug的BaseRequest类继承而来。<br>BaseRequest除了这几个uri相关的属性外 还有一个 CommonRequestDescriptorsMixin.referrer 表示发出请求的路径， 它们都是Request的父类。<br>所以要得到跳转前的rul可以使用flask-login的request.url也可使用request.referrer</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/11/07/flask-redirect相关/" data-id="ciz29nclc00039kfgsphmjffk" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/11/11/sqlalchemy源码之Query/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          sqlalchemy源码之Query
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/28/redis-py/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">redis-py</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/jinja2/">jinja2</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/jinja2/" style="font-size: 10px;">jinja2</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/02/12/jinja2-Template/">jinja2-模板对象</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/11/sqlalchemy源码之Query/">sqlalchemy源码之Query</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/07/flask-redirect相关/">flask-redirect相关</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/28/redis-py/">redis-py</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/28/redis命令/">redis命令</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

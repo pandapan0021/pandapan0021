@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>flask源码--理解wsgi | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="PEP333-wsgiPEP333
+wsgi是什么？定义了python web app 与 web servers 之间接口的协议
+为自由而生（不受框架与服务器的限制而产生）
+wsgi的两端server or gateway 调用由application端提供的可调用的对象application的行为就像一个函数， 当server端接到request则调用application并产生结果返回给se">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flask源码--理解wsgi">
+<meta property="og:url" content="http://yoursite.com/2016/10/26/flask-wsgi/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="PEP333-wsgiPEP333
+wsgi是什么？定义了python web app 与 web servers 之间接口的协议
+为自由而生（不受框架与服务器的限制而产生）
+wsgi的两端server or gateway 调用由application端提供的可调用的对象application的行为就像一个函数， 当server端接到request则调用application并产生结果返回给se">
+<meta property="og:updated_time" content="2016-10-26T06:34:23.527Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="flask源码--理解wsgi">
+<meta name="twitter:description" content="PEP333-wsgiPEP333
+wsgi是什么？定义了python web app 与 web servers 之间接口的协议
+为自由而生（不受框架与服务器的限制而产生）
+wsgi的两端server or gateway 调用由application端提供的可调用的对象application的行为就像一个函数， 当server端接到request则调用application并产生结果返回给se">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-flask-wsgi" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/26/flask-wsgi/" class="article-date">
+  <time datetime="2016-10-25T18:30:20.000Z" itemprop="datePublished">2016-10-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      flask源码--理解wsgi
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PEP333-wsgi"><a href="#PEP333-wsgi" class="headerlink" title="PEP333-wsgi"></a>PEP333-wsgi</h1><p><a href="https://www.python.org/dev/peps/pep-0333/" target="_blank" rel="external">PEP333</a></p>
+<h2 id="wsgi是什么？"><a href="#wsgi是什么？" class="headerlink" title="wsgi是什么？"></a>wsgi是什么？</h2><p>定义了python web app 与 web servers 之间接口的协议</p>
+<p>为自由而生（不受框架与服务器的限制而产生）</p>
+<h2 id="wsgi的两端"><a href="#wsgi的两端" class="headerlink" title="wsgi的两端"></a>wsgi的两端</h2><p>server or gateway 调用由application端提供的可调用的对象<br>application的行为就像一个函数， 当server端接到request则调用application并产生结果返回给server端。<br>下面为官方示例：</p>
+<pre><code>def simple_app(environ, start_response):
+    &quot;&quot;&quot;Simplest possible application boject&quot;&quot;&quot;
+    status = &apos;200 OK&apos;
+    response_header = [(&apos;Content-type&apos;, &apos;text/plain&apos;)]
+    start_response(satus, response_headers)
+    return [&apos;Hello world!\n&apos;]
+</code></pre><p>environ与start_response都在server调用时由server提供<br>server端示例：</p>
+<pre><code>import os,sys
+def run_with_cgi(application):
+    environ = dict(os.environ.items())
+    ......(设置环境变量)
+
+    if environ.get(&apos;HTTPS&apos;, &apos;off&apos;) in (&apos;on&apos;, &apos;1&apos;):
+        environ[&apos;wsgi.url_scheme&apos;] = &apos;https&apos;
+    else:
+        environ[&apos;wsgi.url_scheme&apos;] = &apos;http&apos;
+
+headers_set = []
+headers_sent = []
+
+def write(data):
+    ......do something with data
+
+def start_response(status, response_headers, exc_info=None):
+    ......do something
+
+result = application(environ, start_response)
+###调用application并返回结果
+......
+完整示例[pep333]https://www.python.org/dev/peps/pep-0333/#the-server-gateway-side
+</code></pre><p>request带来时处理过程：</p>
+<blockquote>
+<pre><code>       当request到来时，run_with_cgi开始运行
+                 设置环境变量
+                   判断协议
+                调用application
+               application端执行
+     application接收环境变量与start_response
+            application处理request
+application调用start_response传入status和headers
+          start_response处理status和headers
+             application返回data
+               application结束
+  server端把status，headers，data打印到标准输出
+</code></pre></blockquote>
+<p>以上为官方示例的处理过程。</p>
+<p>在server端与application之间还定义了一层中间件（middleware）组件。<br>中间件在整个系统中扮演着两种不同的角色。<br>对于server端它是表现的行为就像是一个application。<br>对于application端它的行为又像是一个server。<br>这意味着它同时实现了server端与application端的接口,并在同时遵循wsgi对于两端的限制。<br>中间件一般提供以下几个功能。</p>
+<ul>
+<li>根据url将request路由到不同的application。</li>
+<li>允许多个应用与框架在用一个过程中一起运行。</li>
+<li>通过在网络上传送request和response的方式加载均衡器或远程过程。</li>
+<li>执行内容后处理。</li>
+</ul>
+<p>在存在中间件的系统中数据流向就像一个协议栈一样从server端一路向下直到到达app端然后再从app端一路向上回到server。</p>
+<h2 id="特别注意"><a href="#特别注意" class="headerlink" title="特别注意"></a>特别注意</h2><ul>
+<li>environ和start_response只是调用application时使用的参数可以任意命名，没有特殊需求。</li>
+<li>environ参数必须是python的内置dict类型</li>
+<li>start_response必须包含两个位置参数和一个可选参数，并且必须被application以位置参数的形式调用</li>
+<li>status是一个字符串r’\d{3}\s\w+’,response_headers是元组(header_key, header_value)的列表。</li>
+<li>start_response只有在确认application调用成功之后才更新responese_headers</li>
+<li>。。。。。。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/26/flask-wsgi/" data-id="ciz29nckw00009kfgsm2viww8" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/26/flask源码/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          flask源码
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/jinja2/">jinja2</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/jinja2/" style="font-size: 10px;">jinja2</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/02/12/jinja2-Template/">jinja2-模板对象</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/11/sqlalchemy源码之Query/">sqlalchemy源码之Query</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/07/flask-redirect相关/">flask-redirect相关</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/28/redis-py/">redis-py</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/28/redis命令/">redis命令</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

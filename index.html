@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-jinja2-Template" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/02/12/jinja2-Template/" class="article-date">
+  <time datetime="2017-02-12T03:51:28.000Z" itemprop="datePublished">2017-02-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/12/jinja2-Template/">jinja2-模板对象</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h6 id="Template"><a href="#Template" class="headerlink" title="Template"></a>Template</h6><h6 id="1-Tempalte类为核心模板对象。用来表示编译过的模板文件并用来渲染该模板文件。"><a href="#1-Tempalte类为核心模板对象。用来表示编译过的模板文件并用来渲染该模板文件。" class="headerlink" title="(1) Tempalte类为核心模板对象。用来表示编译过的模板文件并用来渲染该模板文件。"></a>(1) Tempalte类为核心模板对象。用来表示编译过的模板文件并用来渲染该模板文件。</h6><h6 id="2-通常模板对象是从Enviroment-类生成的，但Template-类提供了构造器来生成模板对象。"><a href="#2-通常模板对象是从Enviroment-类生成的，但Template-类提供了构造器来生成模板对象。" class="headerlink" title="(2) 通常模板对象是从Enviroment 类生成的，但Template 类提供了构造器来生成模板对象。"></a>(2) 通常模板对象是从Enviroment 类生成的，但Template 类提供了构造器来生成模板对象。</h6><h6 id="3-从Template类直接生成的模板对象包含一个指向临时环境的”environment”属性，所有由Template类直接生成的模板对象共享这个临时环境。"><a href="#3-从Template类直接生成的模板对象包含一个指向临时环境的”environment”属性，所有由Template类直接生成的模板对象共享这个临时环境。" class="headerlink" title="(3) 从Template类直接生成的模板对象包含一个指向临时环境的”environment”属性，所有由Template类直接生成的模板对象共享这个临时环境。"></a>(3) 从Template类直接生成的模板对象包含一个指向临时环境的”environment”属性，所有由Template类直接生成的模板对象共享这个临时环境。</h6><h6 id="4-new"><a href="#4-new" class="headerlink" title="(4)__new__"></a>(4)__new__</h6><p>args:</p>
+<ol>
+<li>source: 模板字符串。</li>
+<li>block_start_string(默认为 { % )</li>
+<li>block_end_string(默认为 % } )</li>
+<li>variable_start_string(默认为 { { )</li>
+<li>variable_end_string(默认为 } } )</li>
+<li>comment_start_string(默认为 { # )</li>
+<li>comment_end_string(默认为 # } )</li>
+<li>line_statement_prefix(None)</li>
+<li>line_comment_prefix(None)</li>
+<li>trim_blocks(False)</li>
+<li>lstrip_blocks(False)</li>
+<li>newline_sequence(默认为 \n )</li>
+<li>keep_trailing_newline(False)</li>
+<li>extensions</li>
+<li>optimized</li>
+<li>undefine</li>
+<li>finalize</li>
+<li>autoescape(此处默认为False，所以从字符串直接构造的模板对象不会自动转义，但是Environment生成的模板对象默认自动转义)</li>
+<li>enable_async(False)</li>
+</ol>
+<p>函数体：<br>通过get_spontaneous_environment生成环境变量env，再通过env.from_string函数生成模板对象。</p>
+<p>######(5)from_code<br>此函数从编译过的模板代码和globals参数创建模板对象，供loaders和environment调用。</p>
+<p>######(6)from_module_dict<br>此函数通过模块构造模板对象，供module loadder调用</p>
+<p>######(7)_from_namespace<br>由from_code与from_module_dict函数调用真正创建模板对象的函数</p>
+<p>######(8)render/render_async<br>渲染函数，render_async需要支持await特性的python版本，目前还没有实现。</p>
+<p>######(9)stream<br>同generate但是返回TemplateStream的实例</p>
+<p>######(10)generate/generate_async<br>对于大规模的模板，此函数可以一条语句接着一条语句渲染并一段一段的生成。异步方法同样需要await支持(未实现)</p>
+<pre><code>从几个渲染函数看出，渲染的核心功能由Template.new_context函数与Template.root_render_func函数提供
+</code></pre><p>######(11)new_context<br>为模板对象创建上下文环境，为Context类的实例。全局变量默认加入此上下文。</p>
+<p>######(12)make_module/make_module_async<br>默认参数下和module方法一致。</p>
+<p>######(13)module 调用 _get_default_module 返回self._module<br>由make_module 默认参数构造。</p>
+<p>######(14)get_corresponding_lineno 返回行号</p>
+<p>######(15)is_up_to_date 检测是否需要更新模板</p>
+<p>######(16)debug_info 返回debug信息</p>
+<p>####flask调用jinja2过程</p>
+<p>######flask/templating.py<br>render_template函数调用_render渲染模板<br>首先，从flask的本地应用上下文栈中取出应用上下文ctx。更新模板环境。<br>ctx.app.jinja_env.get_or_select_template生成模板对象。</p>
+<p>######flask/app.py<br>jinja_env调用create_jinja_environment<br>create_jinja_environment首先生成jinja配置选项，通过jinja_environment生成jinja环境，jinja_environment就是flask/templating.py/Evnironment。</p>
+<p>######flask/templating.py<br>通过jinja2/environment.py/Environment构造环境</p>
+<p>ctx.app.jinja_env就是一个jinja2/environment.py/Environment实例。</p>
+<p>######jinja2/environment.py<br>Environment.get_or_select_template<br>如果参数为字符串调用get_template\，否则调用select_template</p>
+<p>Environment.select_template<br>通过_load_template生成Template对象</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/02/12/jinja2-Template/" data-id="ciz29nclc00029kfgl3ycgo2n" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jinja2/">jinja2</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-sqlalchemy源码之Query" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/11/sqlalchemy源码之Query/" class="article-date">
+  <time datetime="2016-11-11T15:50:52.000Z" itemprop="datePublished">2016-11-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/11/sqlalchemy源码之Query/">sqlalchemy源码之Query</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>根据官方文档，Query类在平时应用中用户并不直接接触， 而是由session通过调用session.query()方法调用。<br>一、sqlalchemy.orm.session.py<br>在session的__init__方法中，可以看到参数query_cls的默认值为Query类。<br>接着在函数体中将session._query_cls赋值为query_cls,正常情况下都是使用默认值，及session._query_cls就是Query类。<br>session.query的定义为：</p>
+<pre><code>def query(self, *entities, **kwargs):
+    return self._query_cls(entities, self, **kwargs)
+</code></pre><p>可以看出session.query()的使命就是用他的参数得到一个Query的实例。</p>
+<p>一般的用法是<br>        session.query(MappedClass).filter……</p>
+<p>可以看到传给实例化Query所用的参数就是用户定义的models。<br>那Query对这个MappedClass是怎么处理的呢</p>
+<p>二、sqlalchemy.orm.query.py<br>Query.__init__中将self.session设置为初始化时的第二个参数就是之前已经实例化的session。之后处理传入的MappedClass参数。<br>对MappedClass参数的处理一直嵌套调用函数下面去掉函数调用整理成顺序处理</p>
+<pre><code>self._entities=[]
+self._primary_entity = None
+self.has_mapper_entities = False
+for ent in util.to_list(entities):
+    _QueryEntity(self, ent)
+</code></pre><p><em>QueryEntity做了什么：<br>这是一个很神奇的类，会根据提供的初始化参数来改变自己。<br>通过\</em>_new__方法使得自身在_MapperEntity，_Bundleentity, _ColumnEntity之间切换。通过源码可以看出正常提供MappedClass参数之后实例化的是_MapperEntity这个类。之后就是实例化_MapperEntity的过程：</p>
+<pre><code>def __init__(self, query, entity):
+    if not query._primay_entity:
+        query._primary_entity = self
+    query._entities.append(self)
+    query._has_mapper_entities = True
+    self.entities = [entity]
+    self.expr = entity
+    ......
+</code></pre><p>这时候_primary_entity还是None,所以设置_primary_entity为_MapperEntity的实例，接着在_entities列表中添加相同的_MapperEntity实例。可以看到当传入多个MappedClass时候，Query._primary_entity为传入的第一个Class实例化的_MapperEntity，Query._entities中存储的是所有的Class实例化的_MapperEntity。</p>
+<p>设置完Query._primay_entity和Query._entities之后回到Query的实例化过程。</p>
+<p>（Query类中）接着调用</p>
+<pre><code>self._set_entity_selectables(self._entities)
+</code></pre><p>主要代码:</p>
+<pre><code>for ent in entities:
+    if entity not in d:
+        ext_info = inspect(entity)
+        if not ext_info.is_aliased_class and \ 
+                ext_info.mapper.with_polymorphic:
+            if ext_info.mapper.mapped_table not in \
+                    self._polymorphic_adapters:
+                self._mapper_loads_polymorphically_with(
+                    ext_info.mapper,
+                    sql_utill.ColumnAdapter(
+                        ext_info.selectable,
+                        ext_info.mapper._equivalent_columns
+                    )
+                )
+            aliased_adapter = None
+        elif ext_info.is_aliased_class:
+            aliased_adapter = ext_info._adapter
+        else:
+            aliased_adapter = None
+
+        d[entity] = (
+            ext_info,
+            aliased_adapter
+        )
+    ent.setup_entity(*d[entity])
+</code></pre><p>传入的参数为_MapperEntity实例的列表，for循环对每一个列表中的元素操作。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/11/11/sqlalchemy源码之Query/" data-id="ciz29ncm700079kfgwtncps8a" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-flask-redirect相关" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/07/flask-redirect相关/" class="article-date">
+  <time datetime="2016-11-07T08:48:23.000Z" itemprop="datePublished">2016-11-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/07/flask-redirect相关/">flask-redirect相关</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在使用flask-login时，由login_required跳转到login_view完成登录之后可以由request.arg[‘next’]跳转回登录前的页面。<br>那不是由login_required产生的跳转怎么样主动重定向回之前的视图呢？<br>先看一下flask-login的做法：<br>源码flask_login/utils.py</p>
+<pre><code>def login_required(func):
+    @wraps(func)
+    def decorated_view(*args, **kwargs):
+        if request.method in EXEMPT_METHODS:
+ #  EXEMPT_METHODS = [&apos;optionh&apos;]
+            return func(*args, **kwargs)
+        elif current_app.login_manager._login_disabled:
+            return func(*args, **kwargs)
+        elif not current_user.is_authenticated:
+            return current_app.login_manager.unauthorized()
+        return func(*args, **kwargs)
+    return edcorated_view
+</code></pre><p>忽略判断语句只看用户未登录时执行的动作，login_manager为LoginManager的实例。<br>源码flask_login/login_manager.py</p>
+<pre><code>class LoginManager(object):
+    ......
+    def unauthorized(self):
+        user_unauthorized.send(current_app._get_current_object())
+        if self.unauthorized_callback:
+            reurn self.unauthorized_callback()
+        if request.blueprint in self.blueprint_login_views:
+            login_view = self.blueprint_login_views[request.blueprint]
+        else:
+            login_view = self.login_view
+        if not login_view:
+            abort(401)
+        if self.login_message:
+            if self.localize_callback is not NOne:
+                flash(self.localize_callback(self.login_message), category=self.login_message_category)
+            else:
+                flash(self.login_message, category=self.login_message_category)
+         return redirect(login_url(login_view, request.url))
+</code></pre><p>最后重定向到了login_url(login_view, request.url)</p>
+<p>flask_login/utils</p>
+<pre><code>def logni_url(login_view, next_url=None, next_field=&apos;next&apos;):
+    ........
+    base=url_for(login_view)
+    parts=list(urlparse(base))
+    md = url_decode(parts[4])
+    md[next_field]=make_next_param(base, next_url)
+    parts[4] = url_encode(md, sort=True)
+    return urlunparse(parts)
+</code></pre><p>request.url是的形如<a href="http://www.example.com/myapplication/π/page.html?x=y的当前完整路径。" target="_blank" rel="external">http://www.example.com/myapplication/π/page.html?x=y的当前完整路径。</a><br>可以看出flask_login做法就是把request.url做成next参数，查api可知request对于当前uri的属性一共有6个：<br>        path<br>        full_path<br>        script_root<br>        base_url<br>        url<br>        url_root<br>这些属性都是从werkzeug的BaseRequest类继承而来。<br>BaseRequest除了这几个uri相关的属性外 还有一个 CommonRequestDescriptorsMixin.referrer 表示发出请求的路径， 它们都是Request的父类。<br>所以要得到跳转前的rul可以使用flask-login的request.url也可使用request.referrer</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/11/07/flask-redirect相关/" data-id="ciz29nclc00039kfgsphmjffk" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-redis-py" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/28/redis-py/" class="article-date">
+  <time datetime="2016-10-28T05:19:46.000Z" itemprop="datePublished">2016-10-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/28/redis-py/">redis-py</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/28/redis-py/" data-id="ciz29nclr00059kfgqrmnfyzs" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-redis命令" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/28/redis命令/" class="article-date">
+  <time datetime="2016-10-27T17:58:44.000Z" itemprop="datePublished">2016-10-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/28/redis命令/">redis命令</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h6 id="redis-string"><a href="#redis-string" class="headerlink" title="redis-string"></a>redis-string</h6><pre><code>set key value [nx|xx]
+incr/decr key
+incrby/decrby key val
+getset key new_val
+mset key_1 val_1 key_2 val_2 ....
+mget key_1 key_2 key3 ......
+exists key
+del key
+</code></pre><h6 id="redis-expires"><a href="#redis-expires" class="headerlink" title="redis-expires"></a>redis-expires</h6><pre><code>expire/pexpire key time
+get key [immediately | some_time]
+set key val ex some_time
+persist key
+ttl/pttl key
+</code></pre><h6 id="redis-lists"><a href="#redis-lists" class="headerlink" title="redis-lists"></a>redis-lists</h6><pre><code>lpush/rpush key val_1 val_2 val_3.....
+rpop/lpop key
+lrange start stop
+ltrim start stop
+brpop/blpop key timeout
+rpoplpush key
+lpoprpush key
+llen key
+</code></pre><h6 id="redis-hashes"><a href="#redis-hashes" class="headerlink" title="redis-hashes"></a>redis-hashes</h6><pre><code>hmset key field_1 val_1 field_2 val_2 field_3 val_3
+hget key field
+hgetall key
+hmget key field_1 field_2 field_3
+hincrby key field incr_val
+</code></pre><h6 id="redis-sets"><a href="#redis-sets" class="headerlink" title="redis-sets"></a>redis-sets</h6><pre><code>sadd key val_1 val_2 val_3
+smembers key
+sismember key val
+sinter key_1 key_2 key_3
+spop key
+sunionstore des src
+scard key
+srandmember key
+</code></pre><h6 id="redis-sorted-sets"><a href="#redis-sorted-sets" class="headerlink" title="redis-sorted sets"></a>redis-sorted sets</h6><pre><code>zadd key scores val
+zrange key start stop
+zrevrange key start stop
+zrange key start stop withscores
+zrangebyscore key -inf scores
+zremrangebyscores key start_scores stop_score
+zrank key val
+</code></pre><h6 id="redis-bitmap"><a href="#redis-bitmap" class="headerlink" title="redis-bitmap"></a>redis-bitmap</h6><pre><code>setbit key pos 1/0
+getbit key pos
+bitop [and|or|xor|not]
+bitcount key
+bitpos
+</code></pre><h6 id="redis-hyperloglogs"><a href="#redis-hyperloglogs" class="headerlink" title="redis-hyperloglogs"></a>redis-hyperloglogs</h6><pre><code>pfadd key val_1 val_2 val_3
+pfcount key
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/28/redis命令/" data-id="ciz29nclr00069kfgt91x1ivo" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-flask源码" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/26/flask源码/" class="article-date">
+  <time datetime="2016-10-26T08:42:26.000Z" itemprop="datePublished">2016-10-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/26/flask源码/">flask源码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="flask源码"><a href="#flask源码" class="headerlink" title="flask源码"></a>flask源码</h2><p>flask现在的源码太杂，先看简单的第一版源码。通过git checkout出。<br>只有一个文件(flask.py)，356行！！！！！！！</p>
+<p>了解了wsgi基本原理之后，通过跟踪数据流的方式来看flask源码。<br>wsgi的application端需要提供一个可调用的对象，flask提供的可调用对象就是Flask类的实例。</p>
+<p>先看flask程序的简单结构</p>
+<pre><code>from flask import Flask
+
+app = Flask(__name__)
+
+@app.route(&apos;/&apos;)
+def index():
+    pass
+
+if __name__ == &quot;__main__&quot;:
+    app.run()
+</code></pre><p>当构建Flask实例之前做了什么？<br>在导入模块是执行了</p>
+<pre><code>_request_ctx_stack = LocalStack()
+current_app = LocalProxy(lambda: _request_ctx_stack.top.app)
+request = LocalProxy(lambda: _request_ctx_stack.top.request)
+session = LocalProxy(lambda: _request_ctx_stack.top.session)
+g = LocalProxy(lambda: _request_ctx_stack.top.g)
+</code></pre><p>具体细节先不管，可以简单理解为构造了一个本地栈，并生成本地上下文。<br>既然current_app, request, session, g都是在这时候生成的，为什么官方文档上说current_app,g为应用上下文，而request， session是请求上下文呢？</p>
+<p>当我们通过Flask类产生实例对象时又做了什么？</p>
+<pre><code>self.view_functions = {}
+self.error_handlers={}
+self.request_init_funcs = []
+self.reequest_shutdown_funcs = []
+self.url_map = Map()
+
+......设置static映射
+......设置jinja环境
+</code></pre><p>简单来说就是就是产生一系列数据结构供以后使用。</p>
+<pre><code>@app.route(&apos;/&apos;)
+def index():
+    pass
+</code></pre><p>route 函数干了什么</p>
+<pre><code>def route（self， rule， ××options）：
+    def decorator(f):
+        if &apos;endpoint&apos; not in options:
+            options[&apos;endpoint&apos;] = f.__name__
+        self.url_map.add(Rule(rule, **options))
+        self.view_functions[options[&apos;endpoint&apos;]] = f
+        return f
+    return decorator
+</code></pre><p>通过修饰器将修饰的函数注册到self.view_functions和self.url_map中。<br>endpoint 是一个key-argument，没见使用过，根据源码应该就是给修饰的函数取个别名，用于之后的映射。相当于django中url函数的第三个参数！！！</p>
+<p>errorhandler, request_init(现在flask中为before_request), request_shutdown(现在为after_request)，提供相似的功能。</p>
+<blockquote>
+<p>   第一版flask并没有提供blueprint，但是通过上面的处理方法可以想象，<br>   应该在register_blueprint的时候将blueprint的视图函数与规则注册从blueprint的结构中引入到app中。</p>
+</blockquote>
+<p>准备就绪调用Flask的run()方法，通过werkzeug提供的run_simple启动一个简单的wsgi服务器来供调试时使用</p>
+<p>程序完成之后wsgi怎么调用呢？<br>flask官方文档给出了部署方法以uwsgi为例</p>
+<pre><code>$ uwsgi -s /tmp/uwsgi.sock --manage-script-name --mount /yourapplication=myapp:app
+</code></pre><p>最后/yourapplication=myapp:app就是告诉uwsgi，我的可调用对象是myapp模块中的名为app的flask实例</p>
+<p>部署之后的数据流：</p>
+<ol>
+<li>wsgi服务器有request到来</li>
+<li>wsgi调用flask实例(app)</li>
+<li><p>执行app.<strong>call</strong>()</p>
+<pre><code>def __call__(self, environ, start_response):
+    return self.wsgi_app(environ, start_response)
+</code></pre></li>
+<li><p><strong>call</strong>调用wsgi_app函数</p>
+<pre><code>def wsgi_app(self, environ, start_response):
+    _request_ctx_stack.push(_RequestContext(self, environ))
+    try:
+        rv = self.preprocess_request()
+        if rv is None:
+            rv = self.dispatch_request()
+        response = self.make_response(rv)
+        response = self.process_response(response)
+        return response(environ, start_response)
+    finally:
+        _request_ctx_stack.pop()
+</code></pre></li>
+</ol>
+<p>下面看下wsgi_app的执行过程。</p>
+<ol>
+<li>产生request上下文并且入栈<blockquote>
+<p> _RequestContext根据environ设置request，又根据request设置session<br> 再重置g中的值，这就是为什么request和session是请求上下文的原因， 而g虽然每次请求都会重置但是它每次重置结果并不依赖于传入的environ,所以为应用上下文。</p>
+</blockquote>
+</li>
+<li>执行由request_init修饰器修饰的函数，</li>
+<li>如果预处理函数产生输出怎么跳过剩下的处理过程直接构建response</li>
+<li>如果预处理函数无输出怎么向下递交request给视图函数</li>
+<li>构建response并返回</li>
+<li>request上下文出栈</li>
+</ol>
+<p>再来看看response的构建过程。</p>
+<pre><code>def make_response(self, rv):
+    if isinstance(rv, self.response_class):
+        return rv
+    if isinstance(rv, basestring):
+        return self.response_class(rv)
+    if isinstance(rv, tuple):
+        return self.response_class(*rv)
+    return self.response_class.force_type(rv, request.environ)
+</code></pre><p>根据传入的不同结果选择行为， 最后都是返回一个response_class实例</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/26/flask源码/" data-id="ciz29nckw00019kfg3a3k6z7d" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-flask-wsgi" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/26/flask-wsgi/" class="article-date">
+  <time datetime="2016-10-25T18:30:20.000Z" itemprop="datePublished">2016-10-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/26/flask-wsgi/">flask源码--理解wsgi</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PEP333-wsgi"><a href="#PEP333-wsgi" class="headerlink" title="PEP333-wsgi"></a>PEP333-wsgi</h1><p><a href="https://www.python.org/dev/peps/pep-0333/" target="_blank" rel="external">PEP333</a></p>
+<h2 id="wsgi是什么？"><a href="#wsgi是什么？" class="headerlink" title="wsgi是什么？"></a>wsgi是什么？</h2><p>定义了python web app 与 web servers 之间接口的协议</p>
+<p>为自由而生（不受框架与服务器的限制而产生）</p>
+<h2 id="wsgi的两端"><a href="#wsgi的两端" class="headerlink" title="wsgi的两端"></a>wsgi的两端</h2><p>server or gateway 调用由application端提供的可调用的对象<br>application的行为就像一个函数， 当server端接到request则调用application并产生结果返回给server端。<br>下面为官方示例：</p>
+<pre><code>def simple_app(environ, start_response):
+    &quot;&quot;&quot;Simplest possible application boject&quot;&quot;&quot;
+    status = &apos;200 OK&apos;
+    response_header = [(&apos;Content-type&apos;, &apos;text/plain&apos;)]
+    start_response(satus, response_headers)
+    return [&apos;Hello world!\n&apos;]
+</code></pre><p>environ与start_response都在server调用时由server提供<br>server端示例：</p>
+<pre><code>import os,sys
+def run_with_cgi(application):
+    environ = dict(os.environ.items())
+    ......(设置环境变量)
+
+    if environ.get(&apos;HTTPS&apos;, &apos;off&apos;) in (&apos;on&apos;, &apos;1&apos;):
+        environ[&apos;wsgi.url_scheme&apos;] = &apos;https&apos;
+    else:
+        environ[&apos;wsgi.url_scheme&apos;] = &apos;http&apos;
+
+headers_set = []
+headers_sent = []
+
+def write(data):
+    ......do something with data
+
+def start_response(status, response_headers, exc_info=None):
+    ......do something
+
+result = application(environ, start_response)
+###调用application并返回结果
+......
+完整示例[pep333]https://www.python.org/dev/peps/pep-0333/#the-server-gateway-side
+</code></pre><p>request带来时处理过程：</p>
+<blockquote>
+<pre><code>       当request到来时，run_with_cgi开始运行
+                 设置环境变量
+                   判断协议
+                调用application
+               application端执行
+     application接收环境变量与start_response
+            application处理request
+application调用start_response传入status和headers
+          start_response处理status和headers
+             application返回data
+               application结束
+  server端把status，headers，data打印到标准输出
+</code></pre></blockquote>
+<p>以上为官方示例的处理过程。</p>
+<p>在server端与application之间还定义了一层中间件（middleware）组件。<br>中间件在整个系统中扮演着两种不同的角色。<br>对于server端它是表现的行为就像是一个application。<br>对于application端它的行为又像是一个server。<br>这意味着它同时实现了server端与application端的接口,并在同时遵循wsgi对于两端的限制。<br>中间件一般提供以下几个功能。</p>
+<ul>
+<li>根据url将request路由到不同的application。</li>
+<li>允许多个应用与框架在用一个过程中一起运行。</li>
+<li>通过在网络上传送request和response的方式加载均衡器或远程过程。</li>
+<li>执行内容后处理。</li>
+</ul>
+<p>在存在中间件的系统中数据流向就像一个协议栈一样从server端一路向下直到到达app端然后再从app端一路向上回到server。</p>
+<h2 id="特别注意"><a href="#特别注意" class="headerlink" title="特别注意"></a>特别注意</h2><ul>
+<li>environ和start_response只是调用application时使用的参数可以任意命名，没有特殊需求。</li>
+<li>environ参数必须是python的内置dict类型</li>
+<li>start_response必须包含两个位置参数和一个可选参数，并且必须被application以位置参数的形式调用</li>
+<li>status是一个字符串r’\d{3}\s\w+’,response_headers是元组(header_key, header_value)的列表。</li>
+<li>start_response只有在确认application调用成功之后才更新responese_headers</li>
+<li>。。。。。。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/26/flask-wsgi/" data-id="ciz29nckw00009kfgsm2viww8" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/jinja2/">jinja2</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/jinja2/" style="font-size: 10px;">jinja2</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/02/12/jinja2-Template/">jinja2-模板对象</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/11/sqlalchemy源码之Query/">sqlalchemy源码之Query</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/07/flask-redirect相关/">flask-redirect相关</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/28/redis-py/">redis-py</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/28/redis命令/">redis命令</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

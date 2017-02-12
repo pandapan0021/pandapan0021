@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>redis命令 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="redis-stringset key value [nx|xx]
+incr/decr key
+incrby/decrby key val
+getset key new_val
+mset key_1 val_1 key_2 val_2 ....
+mget key_1 key_2 key3 ......
+exists key
+del key
+redis-expiresexpire/pexpire k">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis命令">
+<meta property="og:url" content="http://yoursite.com/2016/10/28/redis命令/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="redis-stringset key value [nx|xx]
+incr/decr key
+incrby/decrby key val
+getset key new_val
+mset key_1 val_1 key_2 val_2 ....
+mget key_1 key_2 key3 ......
+exists key
+del key
+redis-expiresexpire/pexpire k">
+<meta property="og:updated_time" content="2016-10-27T20:41:37.702Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis命令">
+<meta name="twitter:description" content="redis-stringset key value [nx|xx]
+incr/decr key
+incrby/decrby key val
+getset key new_val
+mset key_1 val_1 key_2 val_2 ....
+mget key_1 key_2 key3 ......
+exists key
+del key
+redis-expiresexpire/pexpire k">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-redis命令" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/28/redis命令/" class="article-date">
+  <time datetime="2016-10-27T17:58:44.000Z" itemprop="datePublished">2016-10-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      redis命令
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h6 id="redis-string"><a href="#redis-string" class="headerlink" title="redis-string"></a>redis-string</h6><pre><code>set key value [nx|xx]
+incr/decr key
+incrby/decrby key val
+getset key new_val
+mset key_1 val_1 key_2 val_2 ....
+mget key_1 key_2 key3 ......
+exists key
+del key
+</code></pre><h6 id="redis-expires"><a href="#redis-expires" class="headerlink" title="redis-expires"></a>redis-expires</h6><pre><code>expire/pexpire key time
+get key [immediately | some_time]
+set key val ex some_time
+persist key
+ttl/pttl key
+</code></pre><h6 id="redis-lists"><a href="#redis-lists" class="headerlink" title="redis-lists"></a>redis-lists</h6><pre><code>lpush/rpush key val_1 val_2 val_3.....
+rpop/lpop key
+lrange start stop
+ltrim start stop
+brpop/blpop key timeout
+rpoplpush key
+lpoprpush key
+llen key
+</code></pre><h6 id="redis-hashes"><a href="#redis-hashes" class="headerlink" title="redis-hashes"></a>redis-hashes</h6><pre><code>hmset key field_1 val_1 field_2 val_2 field_3 val_3
+hget key field
+hgetall key
+hmget key field_1 field_2 field_3
+hincrby key field incr_val
+</code></pre><h6 id="redis-sets"><a href="#redis-sets" class="headerlink" title="redis-sets"></a>redis-sets</h6><pre><code>sadd key val_1 val_2 val_3
+smembers key
+sismember key val
+sinter key_1 key_2 key_3
+spop key
+sunionstore des src
+scard key
+srandmember key
+</code></pre><h6 id="redis-sorted-sets"><a href="#redis-sorted-sets" class="headerlink" title="redis-sorted sets"></a>redis-sorted sets</h6><pre><code>zadd key scores val
+zrange key start stop
+zrevrange key start stop
+zrange key start stop withscores
+zrangebyscore key -inf scores
+zremrangebyscores key start_scores stop_score
+zrank key val
+</code></pre><h6 id="redis-bitmap"><a href="#redis-bitmap" class="headerlink" title="redis-bitmap"></a>redis-bitmap</h6><pre><code>setbit key pos 1/0
+getbit key pos
+bitop [and|or|xor|not]
+bitcount key
+bitpos
+</code></pre><h6 id="redis-hyperloglogs"><a href="#redis-hyperloglogs" class="headerlink" title="redis-hyperloglogs"></a>redis-hyperloglogs</h6><pre><code>pfadd key val_1 val_2 val_3
+pfcount key
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/28/redis命令/" data-id="ciz29nclr00069kfgt91x1ivo" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/28/redis-py/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          redis-py
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/26/flask源码/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">flask源码</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/jinja2/">jinja2</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/jinja2/" style="font-size: 10px;">jinja2</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/02/12/jinja2-Template/">jinja2-模板对象</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/11/sqlalchemy源码之Query/">sqlalchemy源码之Query</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/07/flask-redirect相关/">flask-redirect相关</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/28/redis-py/">redis-py</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/28/redis命令/">redis命令</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
