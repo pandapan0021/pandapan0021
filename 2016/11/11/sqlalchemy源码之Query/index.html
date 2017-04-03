@@ -1,0 +1,682 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="根据官方文档，Query类在平时应用中用户并不直接接触， 而是由session通过调用session.query()方法调用。一、sqlalchemy.orm.session.py在session的__init__方法中，可以看到参数query_cls的默认值为Query类。接着在函数体中将session._query_cls赋值为query_cls,正常情况下都是使用默认值，及session._">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sqlalchemy源码之Query">
+<meta property="og:url" content="http://yoursite.com/2016/11/11/sqlalchemy源码之Query/index.html">
+<meta property="og:site_name" content="Pandapan0021">
+<meta property="og:description" content="根据官方文档，Query类在平时应用中用户并不直接接触， 而是由session通过调用session.query()方法调用。一、sqlalchemy.orm.session.py在session的__init__方法中，可以看到参数query_cls的默认值为Query类。接着在函数体中将session._query_cls赋值为query_cls,正常情况下都是使用默认值，及session._">
+<meta property="og:updated_time" content="2017-03-25T09:22:14.134Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="sqlalchemy源码之Query">
+<meta name="twitter:description" content="根据官方文档，Query类在平时应用中用户并不直接接触， 而是由session通过调用session.query()方法调用。一、sqlalchemy.orm.session.py在session的__init__方法中，可以看到参数query_cls的默认值为Query类。接着在函数体中将session._query_cls赋值为query_cls,正常情况下都是使用默认值，及session._">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Panda-pan'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/11/11/sqlalchemy源码之Query/"/>
+
+
+
+
+
+  <title> sqlalchemy源码之Query | Pandapan0021 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pandapan0021</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-github">
+          <a href="https://github.com/pandpan0021" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-github"></i> <br />
+            
+            Github
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/11/sqlalchemy源码之Query/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panda-pan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pandapan0021">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                sqlalchemy源码之Query
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-11T23:50:52-05:00">
+                2016-11-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>根据官方文档，Query类在平时应用中用户并不直接接触， 而是由session通过调用session.query()方法调用。<br>一、sqlalchemy.orm.session.py<br>在session的__init__方法中，可以看到参数query_cls的默认值为Query类。<br>接着在函数体中将session._query_cls赋值为query_cls,正常情况下都是使用默认值，及session._query_cls就是Query类。<br>session.query的定义为：</p>
+<pre><code>def query(self, *entities, **kwargs):
+    return self._query_cls(entities, self, **kwargs)
+</code></pre><p>可以看出session.query()的使命就是用他的参数得到一个Query的实例。</p>
+<p>一般的用法是<br>        session.query(MappedClass).filter……</p>
+<p>可以看到传给实例化Query所用的参数就是用户定义的models。<br>那Query对这个MappedClass是怎么处理的呢</p>
+<p>二、sqlalchemy.orm.query.py<br>Query.__init__中将self.session设置为初始化时的第二个参数就是之前已经实例化的session。之后处理传入的MappedClass参数。<br>对MappedClass参数的处理一直嵌套调用函数下面去掉函数调用整理成顺序处理</p>
+<pre><code>self._entities=[]
+self._primary_entity = None
+self.has_mapper_entities = False
+for ent in util.to_list(entities):
+    _QueryEntity(self, ent)
+</code></pre><p><em>QueryEntity做了什么：<br>这是一个很神奇的类，会根据提供的初始化参数来改变自己。<br>通过\</em>_new__方法使得自身在_MapperEntity，_Bundleentity, _ColumnEntity之间切换。通过源码可以看出正常提供MappedClass参数之后实例化的是_MapperEntity这个类。之后就是实例化_MapperEntity的过程：</p>
+<pre><code>def __init__(self, query, entity):
+    if not query._primay_entity:
+        query._primary_entity = self
+    query._entities.append(self)
+    query._has_mapper_entities = True
+    self.entities = [entity]
+    self.expr = entity
+    ......
+</code></pre><p>这时候_primary_entity还是None,所以设置_primary_entity为_MapperEntity的实例，接着在_entities列表中添加相同的_MapperEntity实例。可以看到当传入多个MappedClass时候，Query._primary_entity为传入的第一个Class实例化的_MapperEntity，Query._entities中存储的是所有的Class实例化的_MapperEntity。</p>
+<p>设置完Query._primay_entity和Query._entities之后回到Query的实例化过程。</p>
+<p>（Query类中）接着调用</p>
+<pre><code>self._set_entity_selectables(self._entities)
+</code></pre><p>主要代码:</p>
+<pre><code>for ent in entities:
+    if entity not in d:
+        ext_info = inspect(entity)
+        if not ext_info.is_aliased_class and \ 
+                ext_info.mapper.with_polymorphic:
+            if ext_info.mapper.mapped_table not in \
+                    self._polymorphic_adapters:
+                self._mapper_loads_polymorphically_with(
+                    ext_info.mapper,
+                    sql_utill.ColumnAdapter(
+                        ext_info.selectable,
+                        ext_info.mapper._equivalent_columns
+                    )
+                )
+            aliased_adapter = None
+        elif ext_info.is_aliased_class:
+            aliased_adapter = ext_info._adapter
+        else:
+            aliased_adapter = None
+
+        d[entity] = (
+            ext_info,
+            aliased_adapter
+        )
+    ent.setup_entity(*d[entity])
+</code></pre><p>传入的参数为_MapperEntity实例的列表，for循环对每一个列表中的元素操作。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/07/flask-redirect相关/" rel="next" title="flask-redirect相关">
+                <i class="fa fa-chevron-left"></i> flask-redirect相关
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/12/jinja2-Template/" rel="prev" title="jinja2-模板对象">
+                jinja2-模板对象 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Panda-pan" />
+          <p class="site-author-name" itemprop="name">Panda-pan</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">Tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panda-pan</span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
