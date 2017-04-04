@@ -703,6 +703,177 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/24/descriptor与property/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panda-pan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pandapan0021">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/24/descriptor与property/" itemprop="url">
+                  descriptor与property
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-24T22:33:54-04:00">
+                2017-03-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="descriptor"><a href="#descriptor" class="headerlink" title="descriptor"></a>descriptor</h1><p>   描述器是指作为对象的属性存在并且定义了__get__,__set__,__delete__方法的对象。<br>   描述器改变了对象属性的默认访问方式。<br>   当访问对象属性时，默认的行为方式如下：<br>a.x -&gt; a.__dict__[‘x’] -&gt; type(a).__dict__[‘x’]…..</p>
+<p>当说访问的属性定义了描述器方法的时候，则以如下方式访问：<br>a.x -&gt; x.__get__(a, type(a))<br>a.x = 1 -&gt; x.__set__(a, 1)<br>del a.x -&gt; x.__delete__(a)</p>
+<p>当通过类对象而不是实例对象访问时描述器方法的instance参数对None<br>当对象定义了__set__/__delete__中的任意一个或都定义时，此对象为一个数据描述器，数据描述器总是覆盖实例中重新定义的同名属性。如果对象只定义了__get__方法，则它为一个无数据描述器，实例中定义的属性可以覆盖此描述器。</p>
+<h1 id="descriptor的应用"><a href="#descriptor的应用" class="headerlink" title="descriptor的应用"></a>descriptor的应用</h1><p>1.staticmethod()</p>
+<pre><code>def staticmethod(f):
+    class wrap(object):
+        def __get__(self, instance, owner):
+            return f
+    return wrap()
+</code></pre><p>这样就实现了一个简单的静态方法包裹函数。<br>2.classmethod()<br>与staticmethod类似</p>
+<p>3.property</p>
+<p>property函数有两种使用方法<br>方法一、</p>
+<pre><code>class C:
+    def __init__(self):
+        self._x = None
+    def getx(self):
+        return self._x
+    def setx(self, value):
+        self._x = value
+    def delx(self):
+        del self._x
+    x = property(getx, setx, delx, &quot;x property&quot;)
+</code></pre><p>方法二、</p>
+<pre><code>class C:
+    def __init__(self):
+        self._x = None
+    @property
+    def x(self):
+        return self._x
+    @x.setter
+    def x(self, value):
+        self._x = value
+    @x.deleter
+    def x(self):
+        del self._x
+</code></pre><h5 id="class-property-fget-None-fset-None-fdel-None-doc-None-简单实现"><a href="#class-property-fget-None-fset-None-fdel-None-doc-None-简单实现" class="headerlink" title="class property(fget=None, fset=None, fdel=None, doc=None)简单实现"></a>class property(fget=None, fset=None, fdel=None, doc=None)简单实现</h5><pre><code>class property(object):
+    def __init__(self, fget=None, fset=None, \
+                       fdel=None, doc=None):
+        self._fget = fget
+        self._fset = fset
+        self._fdel = fdel
+        self.__doc__ = doc
+    def setter(self, f):
+        self._fset = f
+        return self
+    def deleter(self, f):
+        self._fdel = f
+        return self
+    def __get__(self, instance, owner):
+        return self._fget(instance)
+    def __set__(self, instance, value):
+        self._fset(instance, value)
+    def __delete__(self, instance):
+        self._fdel(instance)
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/12/jinja2-Template/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1905,7 +2076,7 @@ application调用start_response传入status和headers
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
