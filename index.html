@@ -247,6 +247,176 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/04/dynamic-programming/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panda-pan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pandapan0021">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/04/dynamic-programming/" itemprop="url">
+                  dynamic-programming
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-04T11:24:07-04:00">
+                2017-04-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>对于遇到的问题，如果该问题可以被拆分成更小的子问题，子问题又分解成更小的子问题。同时在这个<br>过程中发现有重叠的只问题出现，就意味着该问题可以用动态规划来求解。同时，子问题的最优解将对<br>所遇问题最优解的计算有所帮助。</p>
+<p>对符合上述条件的问题有两种方法处理：</p>
+<ul>
+<li>至上而下：从给定问题开始拆分子问题， 如果只问题已被解决就返回保存的结果，如果未被解决这<br>解决该子问题并保存结果。(Memoization技术)</li>
+<li>自底向上：分析问题，弄清子问题求解的顺序，从最先求解的只问题开始计算，向上求解到说给的<br>保证子问题都在所给问题之前被解决。(Dynamic Programming)</li>
+</ul>
+<blockquote>
+<p>动态规划于分治法的区别在于子问题的重叠性，分治法要求所分解出来的子问题为非重叠的可独立<br>求解的子问题。归并排序与快速排序为典型的分治法。</p>
+<p>与动态规划互补的算法为贪婪算法，贪婪算法在每次需要选择是都做出一个决定，通过这种算法来<br>得到近似最优解。动态规划算法是基于数学归纳法的。贪婪算法需要其他的方法来证明。</p>
+</blockquote>
+<h2 id="示例-Minimum-Steps-to-One"><a href="#示例-Minimum-Steps-to-One" class="headerlink" title="示例:Minimum Steps to One"></a>示例:Minimum Steps to One</h2><p>对于正整数，你可以做下列任意三个动作之一：</p>
+<ul>
+<li>减1</li>
+<li>如果能被2整除，则可除2</li>
+<li>如果能被3整除，则可除3</li>
+</ul>
+<p>现给定一个正整数n，求出使n到达1的最少步数。</p>
+<blockquote>
+<p>例：</p>
+<ol>
+<li>n = 1, output:0</li>
+<li>n = 4, output:2 (4/2=2 2/2=1)</li>
+<li>n = 7, output:3 (7-1=6 6/3=2 2/2=1)</li>
+</ol>
+</blockquote>
+<h3 id="Idea"><a href="#Idea" class="headerlink" title="Idea"></a>Idea</h3><p>当整数为n时，所用最少步数为F(n)。如果n=1，则F(n)=0，否则F(n) = 1 + min(F(n-1), F(n/2), F(n/3))<br>考察子问题可以发现有重叠子问题，且问题最优解依赖于子问题的最优解。</p>
+<h3 id="至上而下"><a href="#至上而下" class="headerlink" title="至上而下"></a>至上而下</h3><pre><code>meno = []
+for i in range(n+1):
+    meno.append(-1)
+
+def getMinSteps(n):
+    if n==1:
+        return 0
+    if memo[n] != -1:
+        return memo[n]
+    r = 1 + getMinSteps(n-1)
+    if n%2 == 0:
+        r = min(r, 1+getMinSteps(n/2)
+    if n%3 == 0:
+        r = min(r, 1+getMinSteps(n/3)
+    menmo[n] = r
+    return r
+</code></pre><h3 id="自底向上"><a href="#自底向上" class="headerlink" title="自底向上"></a>自底向上</h3><pre><code>def getMinSteps(n):
+    dp = []
+    for i in range(n+1):
+        dp.append(0)
+    for i in range(2, n+1):
+        dp[i] = 1 + dp[i-1]
+        if i%2==0:
+            dp[i] = min(dp[i], 1+dp[i/2])
+        if i%3==0:
+            dp[i] = min(dp[i], 1+dp[i/3])
+    return dp[n]
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/03/sql-join-on-and-where-diff/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1848,192 +2018,13 @@ def index():
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/26/flask-wsgi/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Panda-pan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pandapan0021">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/26/flask-wsgi/" itemprop="url">
-                  flask源码--理解wsgi
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-26T02:30:20-04:00">
-                2016-10-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="PEP333-wsgi"><a href="#PEP333-wsgi" class="headerlink" title="PEP333-wsgi"></a>PEP333-wsgi</h1><p><a href="https://www.python.org/dev/peps/pep-0333/" target="_blank" rel="external">PEP333</a></p>
-<h2 id="wsgi是什么？"><a href="#wsgi是什么？" class="headerlink" title="wsgi是什么？"></a>wsgi是什么？</h2><p>定义了python web app 与 web servers 之间接口的协议</p>
-<p>为自由而生（不受框架与服务器的限制而产生）</p>
-<h2 id="wsgi的两端"><a href="#wsgi的两端" class="headerlink" title="wsgi的两端"></a>wsgi的两端</h2><p>server or gateway 调用由application端提供的可调用的对象<br>application的行为就像一个函数， 当server端接到request则调用application并产生结果返回给server端。<br>下面为官方示例：</p>
-<pre><code>def simple_app(environ, start_response):
-    &quot;&quot;&quot;Simplest possible application boject&quot;&quot;&quot;
-    status = &apos;200 OK&apos;
-    response_header = [(&apos;Content-type&apos;, &apos;text/plain&apos;)]
-    start_response(satus, response_headers)
-    return [&apos;Hello world!\n&apos;]
-</code></pre><p>environ与start_response都在server调用时由server提供<br>server端示例：</p>
-<pre><code>import os,sys
-def run_with_cgi(application):
-    environ = dict(os.environ.items())
-    ......(设置环境变量)
-
-    if environ.get(&apos;HTTPS&apos;, &apos;off&apos;) in (&apos;on&apos;, &apos;1&apos;):
-        environ[&apos;wsgi.url_scheme&apos;] = &apos;https&apos;
-    else:
-        environ[&apos;wsgi.url_scheme&apos;] = &apos;http&apos;
-
-headers_set = []
-headers_sent = []
-
-def write(data):
-    ......do something with data
-
-def start_response(status, response_headers, exc_info=None):
-    ......do something
-
-result = application(environ, start_response)
-###调用application并返回结果
-......
-完整示例[pep333]https://www.python.org/dev/peps/pep-0333/#the-server-gateway-side
-</code></pre><p>request带来时处理过程：</p>
-<blockquote>
-<pre><code>       当request到来时，run_with_cgi开始运行
-                 设置环境变量
-                   判断协议
-                调用application
-               application端执行
-     application接收环境变量与start_response
-            application处理request
-application调用start_response传入status和headers
-          start_response处理status和headers
-             application返回data
-               application结束
-  server端把status，headers，data打印到标准输出
-</code></pre></blockquote>
-<p>以上为官方示例的处理过程。</p>
-<p>在server端与application之间还定义了一层中间件（middleware）组件。<br>中间件在整个系统中扮演着两种不同的角色。<br>对于server端它是表现的行为就像是一个application。<br>对于application端它的行为又像是一个server。<br>这意味着它同时实现了server端与application端的接口,并在同时遵循wsgi对于两端的限制。<br>中间件一般提供以下几个功能。</p>
-<ul>
-<li>根据url将request路由到不同的application。</li>
-<li>允许多个应用与框架在用一个过程中一起运行。</li>
-<li>通过在网络上传送request和response的方式加载均衡器或远程过程。</li>
-<li>执行内容后处理。</li>
-</ul>
-<p>在存在中间件的系统中数据流向就像一个协议栈一样从server端一路向下直到到达app端然后再从app端一路向上回到server。</p>
-<h2 id="特别注意"><a href="#特别注意" class="headerlink" title="特别注意"></a>特别注意</h2><ul>
-<li>environ和start_response只是调用application时使用的参数可以任意命名，没有特殊需求。</li>
-<li>environ参数必须是python的内置dict类型</li>
-<li>start_response必须包含两个位置参数和一个可选参数，并且必须被application以位置参数的形式调用</li>
-<li>status是一个字符串r’\d{3}\s\w+’,response_headers是元组(header_key, header_value)的列表。</li>
-<li>start_response只有在确认application调用成功之后才更新responese_headers</li>
-<li>。。。。。。</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
           
           </div>
@@ -2076,7 +2067,7 @@ application调用start_response传入status和headers
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">Artikel</span>
               </a>
             </div>

@@ -89,7 +89,7 @@
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="Pandapan0021">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="Pandapan0021">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Pandapan0021">
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/"/>
+  <link rel="canonical" href="http://yoursite.com/page/2/"/>
 
 
 
 
 
-  <title> Archiv | Pandapan0021 </title>
+  <title> Pandapan0021 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="">
@@ -151,7 +151,9 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  page-archive  ">
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -234,408 +236,197 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
+  <section id="posts" class="posts-expand">
+    
+      
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
+  
 
-    <span class="archive-page-counter">
-      
-      
-      
-        
-      
-      Öhm..! Insgesamt 11 Artikel. Bleib dran.
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/26/flask-wsgi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panda-pan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pandapan0021">
     </span>
 
     
+      <header class="post-header">
 
-      
-      
-      
-
-      
         
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2017">2017</h2>
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/26/flask-wsgi/" itemprop="url">
+                  flask源码--理解wsgi
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-26T02:30:20-04:00">
+                2016-10-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
         </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
       
       
 
       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
         
-            <a class="post-title-link" href="/2017/04/04/dynamic-programming/" itemprop="url">
-              
-                <span itemprop="name">dynamic-programming</span>
-              
-            </a>
+          
+            <h1 id="PEP333-wsgi"><a href="#PEP333-wsgi" class="headerlink" title="PEP333-wsgi"></a>PEP333-wsgi</h1><p><a href="https://www.python.org/dev/peps/pep-0333/" target="_blank" rel="external">PEP333</a></p>
+<h2 id="wsgi是什么？"><a href="#wsgi是什么？" class="headerlink" title="wsgi是什么？"></a>wsgi是什么？</h2><p>定义了python web app 与 web servers 之间接口的协议</p>
+<p>为自由而生（不受框架与服务器的限制而产生）</p>
+<h2 id="wsgi的两端"><a href="#wsgi的两端" class="headerlink" title="wsgi的两端"></a>wsgi的两端</h2><p>server or gateway 调用由application端提供的可调用的对象<br>application的行为就像一个函数， 当server端接到request则调用application并产生结果返回给server端。<br>下面为官方示例：</p>
+<pre><code>def simple_app(environ, start_response):
+    &quot;&quot;&quot;Simplest possible application boject&quot;&quot;&quot;
+    status = &apos;200 OK&apos;
+    response_header = [(&apos;Content-type&apos;, &apos;text/plain&apos;)]
+    start_response(satus, response_headers)
+    return [&apos;Hello world!\n&apos;]
+</code></pre><p>environ与start_response都在server调用时由server提供<br>server端示例：</p>
+<pre><code>import os,sys
+def run_with_cgi(application):
+    environ = dict(os.environ.items())
+    ......(设置环境变量)
+
+    if environ.get(&apos;HTTPS&apos;, &apos;off&apos;) in (&apos;on&apos;, &apos;1&apos;):
+        environ[&apos;wsgi.url_scheme&apos;] = &apos;https&apos;
+    else:
+        environ[&apos;wsgi.url_scheme&apos;] = &apos;http&apos;
+
+headers_set = []
+headers_sent = []
+
+def write(data):
+    ......do something with data
+
+def start_response(status, response_headers, exc_info=None):
+    ......do something
+
+result = application(environ, start_response)
+###调用application并返回结果
+......
+完整示例[pep333]https://www.python.org/dev/peps/pep-0333/#the-server-gateway-side
+</code></pre><p>request带来时处理过程：</p>
+<blockquote>
+<pre><code>       当request到来时，run_with_cgi开始运行
+                 设置环境变量
+                   判断协议
+                调用application
+               application端执行
+     application接收环境变量与start_response
+            application处理request
+application调用start_response传入status和headers
+          start_response处理status和headers
+             application返回data
+               application结束
+  server端把status，headers，data打印到标准输出
+</code></pre></blockquote>
+<p>以上为官方示例的处理过程。</p>
+<p>在server端与application之间还定义了一层中间件（middleware）组件。<br>中间件在整个系统中扮演着两种不同的角色。<br>对于server端它是表现的行为就像是一个application。<br>对于application端它的行为又像是一个server。<br>这意味着它同时实现了server端与application端的接口,并在同时遵循wsgi对于两端的限制。<br>中间件一般提供以下几个功能。</p>
+<ul>
+<li>根据url将request路由到不同的application。</li>
+<li>允许多个应用与框架在用一个过程中一起运行。</li>
+<li>通过在网络上传送request和response的方式加载均衡器或远程过程。</li>
+<li>执行内容后处理。</li>
+</ul>
+<p>在存在中间件的系统中数据流向就像一个协议栈一样从server端一路向下直到到达app端然后再从app端一路向上回到server。</p>
+<h2 id="特别注意"><a href="#特别注意" class="headerlink" title="特别注意"></a>特别注意</h2><ul>
+<li>environ和start_response只是调用application时使用的参数可以任意命名，没有特殊需求。</li>
+<li>environ参数必须是python的内置dict类型</li>
+<li>start_response必须包含两个位置参数和一个可选参数，并且必须被application以位置参数的形式调用</li>
+<li>status是一个字符串r’\d{3}\s\w+’,response_headers是元组(header_key, header_value)的列表。</li>
+<li>start_response只有在确认application调用成功之后才更新responese_headers</li>
+<li>。。。。。。</li>
+</ul>
+
+          
         
-      </h1>
+      
+    </div>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-04T11:24:07-04:00"
-              content="2017-04-04" >
-          04-04
-        </time>
-      </div>
+    <div>
+      
+    </div>
 
-    </header>
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
   </article>
 
 
-
     
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/03/sql-join-on-and-where-diff/" itemprop="url">
-              
-                <span itemprop="name">sql-join-on-and-where-diff</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-03T14:26:44-04:00"
-              content="2017-04-03" >
-          04-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/01/sqlalchemy-engine/" itemprop="url">
-              
-                <span itemprop="name">sqlalchemy-engine</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-01T05:19:42-04:00"
-              content="2017-04-01" >
-          04-01
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/03/24/descriptor与property/" itemprop="url">
-              
-                <span itemprop="name">descriptor与property</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-03-24T22:33:54-04:00"
-              content="2017-03-24" >
-          03-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/02/12/jinja2-Template/" itemprop="url">
-              
-                <span itemprop="name">jinja2-模板对象</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-02-12T11:51:28-05:00"
-              content="2017-02-12" >
-          02-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-        
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2016">2016</h2>
-        </div>
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/11/11/sqlalchemy源码之Query/" itemprop="url">
-              
-                <span itemprop="name">sqlalchemy源码之Query</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-11-11T23:50:52-05:00"
-              content="2016-11-11" >
-          11-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/11/07/flask-redirect相关/" itemprop="url">
-              
-                <span itemprop="name">flask-redirect相关</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-11-07T16:48:23-05:00"
-              content="2016-11-07" >
-          11-07
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/10/28/redis-py/" itemprop="url">
-              
-                <span itemprop="name">redis-py</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-10-28T13:19:46-04:00"
-              content="2016-10-28" >
-          10-28
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/10/28/redis命令/" itemprop="url">
-              
-                <span itemprop="name">redis命令</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-10-28T01:58:44-04:00"
-              content="2016-10-28" >
-          10-28
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/10/26/flask源码/" itemprop="url">
-              
-                <span itemprop="name">flask源码</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-10-26T16:42:26-04:00"
-              content="2016-10-26" >
-          10-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
   </nav>
-
 
 
           
@@ -822,12 +613,6 @@
   
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
-
 
   
 

@@ -87,27 +87,25 @@
 
 
 
-<meta name="description" content="create_enginedef create_engine(*args, **kwargs):
-    strategy = kwargs.pop(&amp;apos;strategy&amp;apos;, default_strategy)
-    strategy = strategies.strategies[strategy]
-    return strategy.create(*args, **kw">
+<meta name="description" content="Introduction对于遇到的问题，如果该问题可以被拆分成更小的子问题，子问题又分解成更小的子问题。同时在这个过程中发现有重叠的只问题出现，就意味着该问题可以用动态规划来求解。同时，子问题的最优解将对所遇问题最优解的计算有所帮助。
+对符合上述条件的问题有两种方法处理：
+
+至上而下：从给定问题开始拆分子问题， 如果只问题已被解决就返回保存的结果，如果未被解决这解决该子问题并保存结果。(Memoi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sqlalchemy-engine">
-<meta property="og:url" content="http://yoursite.com/2017/04/01/sqlalchemy-engine/index.html">
+<meta property="og:title" content="dynamic-programming">
+<meta property="og:url" content="http://yoursite.com/2017/04/04/dynamic-programming/index.html">
 <meta property="og:site_name" content="Pandapan0021">
-<meta property="og:description" content="create_enginedef create_engine(*args, **kwargs):
-    strategy = kwargs.pop(&amp;apos;strategy&amp;apos;, default_strategy)
-    strategy = strategies.strategies[strategy]
-    return strategy.create(*args, **kw">
-<meta property="og:image" content="http://docs.sqlalchemy.org/en/latest/_images/sqla_engine_arch.png">
-<meta property="og:updated_time" content="2017-04-03T03:51:07.617Z">
+<meta property="og:description" content="Introduction对于遇到的问题，如果该问题可以被拆分成更小的子问题，子问题又分解成更小的子问题。同时在这个过程中发现有重叠的只问题出现，就意味着该问题可以用动态规划来求解。同时，子问题的最优解将对所遇问题最优解的计算有所帮助。
+对符合上述条件的问题有两种方法处理：
+
+至上而下：从给定问题开始拆分子问题， 如果只问题已被解决就返回保存的结果，如果未被解决这解决该子问题并保存结果。(Memoi">
+<meta property="og:updated_time" content="2017-04-04T18:05:42.722Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="sqlalchemy-engine">
-<meta name="twitter:description" content="create_enginedef create_engine(*args, **kwargs):
-    strategy = kwargs.pop(&amp;apos;strategy&amp;apos;, default_strategy)
-    strategy = strategies.strategies[strategy]
-    return strategy.create(*args, **kw">
-<meta name="twitter:image" content="http://docs.sqlalchemy.org/en/latest/_images/sqla_engine_arch.png">
+<meta name="twitter:title" content="dynamic-programming">
+<meta name="twitter:description" content="Introduction对于遇到的问题，如果该问题可以被拆分成更小的子问题，子问题又分解成更小的子问题。同时在这个过程中发现有重叠的只问题出现，就意味着该问题可以用动态规划来求解。同时，子问题的最优解将对所遇问题最优解的计算有所帮助。
+对符合上述条件的问题有两种方法处理：
+
+至上而下：从给定问题开始拆分子问题， 如果只问题已被解决就返回保存的结果，如果未被解决这解决该子问题并保存结果。(Memoi">
 
 
 
@@ -135,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/04/01/sqlalchemy-engine/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/04/dynamic-programming/"/>
 
 
 
 
 
-  <title> sqlalchemy-engine | Pandapan0021 </title>
+  <title> dynamic-programming | Pandapan0021 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="">
@@ -260,7 +258,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/01/sqlalchemy-engine/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/04/dynamic-programming/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Panda-pan">
@@ -281,7 +279,7 @@
             
             
               
-                sqlalchemy-engine
+                dynamic-programming
               
             
           </h1>
@@ -296,8 +294,8 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-01T05:19:42-04:00">
-                2017-04-01
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-04T11:24:07-04:00">
+                2017-04-04
               </time>
             
 
@@ -332,127 +330,60 @@
       
 
       
-        <h1 id="create-engine"><a href="#create-engine" class="headerlink" title="create_engine"></a>create_engine</h1><pre><code>def create_engine(*args, **kwargs):
-    strategy = kwargs.pop(&apos;strategy&apos;, default_strategy)
-    strategy = strategies.strategies[strategy]
-    return strategy.create(*args, **kwargs)
-</code></pre><p>default_strategy = ‘plain’</p>
-<p>strategies = {‘plain’: PlainEngineStrategy(), ‘threadlocal’: ThreadLocalEngineStrategy(), ‘mock’:..}</p>
-<p>以默认策略为例，strategy = PlainEngineStrategy()</p>
-<h1 id="strategy-create"><a href="#strategy-create" class="headerlink" title="strategy.create"></a>strategy.create</h1><pre><code>def create(self, name_or_url, **kwargs):
+        <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>对于遇到的问题，如果该问题可以被拆分成更小的子问题，子问题又分解成更小的子问题。同时在这个<br>过程中发现有重叠的只问题出现，就意味着该问题可以用动态规划来求解。同时，子问题的最优解将对<br>所遇问题最优解的计算有所帮助。</p>
+<p>对符合上述条件的问题有两种方法处理：</p>
+<ul>
+<li>至上而下：从给定问题开始拆分子问题， 如果只问题已被解决就返回保存的结果，如果未被解决这<br>解决该子问题并保存结果。(Memoization技术)</li>
+<li>自底向上：分析问题，弄清子问题求解的顺序，从最先求解的只问题开始计算，向上求解到说给的<br>保证子问题都在所给问题之前被解决。(Dynamic Programming)</li>
+</ul>
+<blockquote>
+<p>动态规划于分治法的区别在于子问题的重叠性，分治法要求所分解出来的子问题为非重叠的可独立<br>求解的子问题。归并排序与快速排序为典型的分治法。</p>
+<p>与动态规划互补的算法为贪婪算法，贪婪算法在每次需要选择是都做出一个决定，通过这种算法来<br>得到近似最优解。动态规划算法是基于数学归纳法的。贪婪算法需要其他的方法来证明。</p>
+</blockquote>
+<h2 id="示例-Minimum-Steps-to-One"><a href="#示例-Minimum-Steps-to-One" class="headerlink" title="示例:Minimum Steps to One"></a>示例:Minimum Steps to One</h2><p>对于正整数，你可以做下列任意三个动作之一：</p>
+<ul>
+<li>减1</li>
+<li>如果能被2整除，则可除2</li>
+<li>如果能被3整除，则可除3</li>
+</ul>
+<p>现给定一个正整数n，求出使n到达1的最少步数。</p>
+<blockquote>
+<p>例：</p>
+<ol>
+<li>n = 1, output:0</li>
+<li>n = 4, output:2 (4/2=2 2/2=1)</li>
+<li>n = 7, output:3 (7-1=6 6/3=2 2/2=1)</li>
+</ol>
+</blockquote>
+<h3 id="Idea"><a href="#Idea" class="headerlink" title="Idea"></a>Idea</h3><p>当整数为n时，所用最少步数为F(n)。如果n=1，则F(n)=0，否则F(n) = 1 + min(F(n-1), F(n/2), F(n/3))<br>考察子问题可以发现有重叠子问题，且问题最优解依赖于子问题的最优解。</p>
+<h3 id="至上而下"><a href="#至上而下" class="headerlink" title="至上而下"></a>至上而下</h3><pre><code>meno = []
+for i in range(n+1):
+    meno.append(-1)
 
-    &quot;&quot;&quot;
-    use :arg:`name_or_url` construct URL object
-    :cls:`URL`:
-        class URL(object):
-            dirvername
-            username
-            password
-            host
-            port
-            database
-            query
-
-            :method:
-            __tostring__
-            get_backend_name
-            get_driver_name
-            _instantiate_plugins
-            _get_entrypoint
-            get_dialect
-            translate_connect_args
-    &quot;&quot;&quot;
-    u = url.make_url(name_or_url)
-    &apos;&apos;&apos;
-    :method:`_instantiate_plugins`
-    get plugins in query dict
-    &apos;&apos;&apos;
-    plugins = u._instantiate_plugins(kwargs)
-    u.query.pop(&apos;plugin&apos;, None)
-
-    &apos;&apos;&apos;
-    :method:`_get_entrypoint()`
-    dirvername -&gt; dialect+driver
-    name -&gt; dialect.dirvier
-    cls -&gt; registry.load(name)
-    -&gt; dialect, driver = name.split(&apos;.&apos;)
-    -&gt; module = __import__(&apos;sqlalchemy.dialects.%s&apos;%dialect).dialects
-    &gt; __import__函数默认只返回最顶层包
-    以mysql为例：module=sqlalchemy.dialects
-    -&gt; module = sqlalchemy.dialects.mysql
-    -&gt; module = sqlalchemy.dialects.mysql.base
-    -&gt; loader =  lambda: sqlalchemy.dialects.mysql.base.dialect
-    -&gt; cls = sqlalchemy.dialects.mysql.base.dialect
-    entrypoint = cls
-    mysql中 base.dialects = mysqldb.dialect
-    则 entrypoint = sqlalchemy.dialects.mysql.mysqldb.dialect
-    entrypoint = sqlalchemy.dialects.mysql.mysqldb.MySQLDialect_mysqldb
-    &apos;&apos;&apos;
-    entrypoint = u._get_entrypoint()
-
-    &apos;&apos;&apos;
-    :method:`get_dialect`
-    MySQLDialect_mysqldb继承关系：
-    sqlalchemy.engine.interfaces.Dialect
-                      |
-    sqlalchemy.engine.default.DefaultDialect
-                      |
-    sqlalchemy.dialects.mysql.base.MySQLDialect
-                      |
-    sqlalchemy.dialects.mysql.mysqldb.MySQLDialect_mysqldb
-
-    -&gt; interfaces.Dialect.get_dialect(cls, url): return cls
-    则 dialect_cls = entrypoint
-    &apos;&apos;&apos;
-    dialect_cls = entrypoint.get_dialect_cls(u)
-
-    ...
-
-    dialect = dialect_cls(**dialect_args)
-
-    &apos;&apos;&apos;
-    :method:`create_connect_args`
-    -&gt;opts = url.translate_connect_args(database=&apos;db&apos;, username=&apos;user&apos;,password=&apos;passwd&apos;)
-    -&gt;opts = {&apos;host&apos;: url.host, &apos;db&apos;:url.database, &apos;user&apos;:url.username, &apos;passwd&apos;:url.password\
-              &apos;port&apos;:url.port}
-    -&gt;opts.updata(url.query)
-    -&gt;ssl = {&apos;ca&apos;: opts[&apos;ssl_ca&apos;], ...}
-    -&gt;opts[&apos;ssl&apos;] = ssl
-    -&gt;return [[], opts]
-    -&gt; cargs = [] cparams = opts
-    (cargs, cparams) = dialect.create_connect_args(u)
-
-    cparams.update(pop_kwarg(&apos;connect_args&apos;, {}))
-    cargs = list(cargs)
-
-    &apos;&apos;&apos;
-    -&gt;engineclass = sqlalchemy.engine.base.Engine
-    &apos;&apos;&apos;
-    engineclass = self.engine_cls
-
-    ...
-
-    &apos;&apos;&apos;
-    -&gt;engine = sqlalchemy.engine.base.Engine(pool, &apos;mysql&apos;, u, ...)
-    &apos;&apos;&apos;
-    engine = engineclass(pool, dialect, u, **engine_args)
-
-    &apos;&apos;&apos;
-    -&gt; _initialize = True
-    -&gt; do_on_connect = dialect.on_connect()(:method:`sqlalchemy.engine.default.DefaultDialect.on_connect`)
-    -&gt; do_on_connect = None
-    &apos;&apos;&apos;
-
-    ...
-
-    &apos;&apos;&apos;
-    sqlalchemy.dialects.mysql.mysqldb.MySQLDialect_mysqldb.engine_created(sqlalchemy.engine.base.Engine())
-    &apos;&apos;&apos;
-    dialect_cls.engine_created(engine)
-
-    return engine
-</code></pre><p>从源码可以看出 engine 的构建过程为，首先从传入的url构造URL对象，确定所使用的数据库、dbapi、传入参数、插件等等信息。<br><img src="http://docs.sqlalchemy.org/en/latest/_images/sqla_engine_arch.png" alt="sqlalchemy-engine"><br>创建engine时sqlalchemy并不会立刻链接数据库，连接发生在第一次数据库相关的操作发生之时。</p>
-
+def getMinSteps(n):
+    if n==1:
+        return 0
+    if memo[n] != -1:
+        return memo[n]
+    r = 1 + getMinSteps(n-1)
+    if n%2 == 0:
+        r = min(r, 1+getMinSteps(n/2)
+    if n%3 == 0:
+        r = min(r, 1+getMinSteps(n/3)
+    menmo[n] = r
+    return r
+</code></pre><h3 id="自底向上"><a href="#自底向上" class="headerlink" title="自底向上"></a>自底向上</h3><pre><code>def getMinSteps(n):
+    dp = []
+    for i in range(n+1):
+        dp.append(0)
+    for i in range(2, n+1):
+        dp[i] = 1 + dp[i-1]
+        if i%2==0:
+            dp[i] = min(dp[i], 1+dp[i/2])
+        if i%3==0:
+            dp[i] = min(dp[i], 1+dp[i/3])
+    return dp[n]
+</code></pre>
       
     </div>
 
@@ -482,8 +413,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/24/descriptor与property/" rel="next" title="descriptor与property">
-                <i class="fa fa-chevron-left"></i> descriptor与property
+              <a href="/2017/04/03/sql-join-on-and-where-diff/" rel="next" title="sql-join-on-and-where-diff">
+                <i class="fa fa-chevron-left"></i> sql-join-on-and-where-diff
               </a>
             
           </div>
@@ -491,10 +422,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/04/03/sql-join-on-and-where-diff/" rel="prev" title="sql-join-on-and-where-diff">
-                sql-join-on-and-where-diff <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -614,7 +541,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#create-engine"><span class="nav-number">1.</span> <span class="nav-text">create_engine</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#strategy-create"><span class="nav-number">2.</span> <span class="nav-text">strategy.create</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#示例-Minimum-Steps-to-One"><span class="nav-number">1.1.</span> <span class="nav-text">示例:Minimum Steps to One</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Idea"><span class="nav-number">1.1.1.</span> <span class="nav-text">Idea</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#至上而下"><span class="nav-number">1.1.2.</span> <span class="nav-text">至上而下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自底向上"><span class="nav-number">1.1.3.</span> <span class="nav-text">自底向上</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
