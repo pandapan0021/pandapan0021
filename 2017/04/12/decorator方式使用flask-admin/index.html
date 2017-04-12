@@ -109,7 +109,7 @@ app = Flask(__name__)
 db = SQLAlchemy(app)
 
 cla">
-<meta property="og:updated_time" content="2017-04-12T19:58:58.766Z">
+<meta property="og:updated_time" content="2017-04-12T20:26:03.174Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="decorator方式使用flask-admin">
 <meta name="twitter:description" content="flask-adminfrom flask import Flask
@@ -384,18 +384,20 @@ class User(db.Model):
 <pre><code>from flask_admin import Admin as _Admin
 
 class Admin(_Admin):
-    def __init__(self, db, **kwargs):
-        self.db = db
-        super(Admin, self).__init__(self, **kwargs)
+    def __init__(self, *args, **kwargs):
+        self.db = kwargs.pop(&apos;_db&apos;, None)
+        super(Admin, self).__init__(*args, **kwargs)
 
-    def _add_view(self, model_view=ModelView, db=self.db):
+    def _add_view(self, model_view=ModelView, db=None):
+        if db == None:
+            db = self.db
         def wrap(_cls):
             self.add_view(model_view(_cls, db.session))
             return _cls
         return wrap
 </code></pre><p>之后可以用一下的方式调用</p>
 <pre><code>db = SQLAlchemy(app)
-admin = Admin(app, name=&apos;test&apos;, template_mode=&apos;bootstrape&apos;, db=db)
+admin = Admin(app, name=&apos;test&apos;, template_mode=&apos;bootstrape&apos;, _db=db)
 
 @admin._add_view(ModelView)
 class User(db.Model):
