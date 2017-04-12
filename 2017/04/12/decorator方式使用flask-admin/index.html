@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="flask python decorator," />
 
 
 
@@ -87,27 +87,40 @@
 
 
 
-<meta name="description" content="create_enginedef create_engine(*args, **kwargs):
-    strategy = kwargs.pop(&amp;apos;strategy&amp;apos;, default_strategy)
-    strategy = strategies.strategies[strategy]
-    return strategy.create(*args, **kw">
+<meta name="description" content="flask-adminfrom flask import Flask
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+db = SQLAlchemy(app)
+
+cla">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sqlalchemy-engine">
-<meta property="og:url" content="http://yoursite.com/2017/04/01/sqlalchemy-engine/index.html">
+<meta property="og:title" content="decorator方式使用flask-admin">
+<meta property="og:url" content="http://yoursite.com/2017/04/12/decorator方式使用flask-admin/index.html">
 <meta property="og:site_name" content="Pandapan0021">
-<meta property="og:description" content="create_enginedef create_engine(*args, **kwargs):
-    strategy = kwargs.pop(&amp;apos;strategy&amp;apos;, default_strategy)
-    strategy = strategies.strategies[strategy]
-    return strategy.create(*args, **kw">
-<meta property="og:image" content="http://docs.sqlalchemy.org/en/latest/_images/sqla_engine_arch.png">
-<meta property="og:updated_time" content="2017-04-03T03:51:07.617Z">
+<meta property="og:description" content="flask-adminfrom flask import Flask
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+db = SQLAlchemy(app)
+
+cla">
+<meta property="og:updated_time" content="2017-04-12T19:58:58.766Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="sqlalchemy-engine">
-<meta name="twitter:description" content="create_enginedef create_engine(*args, **kwargs):
-    strategy = kwargs.pop(&amp;apos;strategy&amp;apos;, default_strategy)
-    strategy = strategies.strategies[strategy]
-    return strategy.create(*args, **kw">
-<meta name="twitter:image" content="http://docs.sqlalchemy.org/en/latest/_images/sqla_engine_arch.png">
+<meta name="twitter:title" content="decorator方式使用flask-admin">
+<meta name="twitter:description" content="flask-adminfrom flask import Flask
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+db = SQLAlchemy(app)
+
+cla">
 
 
 
@@ -135,13 +148,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/04/01/sqlalchemy-engine/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/12/decorator方式使用flask-admin/"/>
 
 
 
 
 
-  <title> sqlalchemy-engine | Pandapan0021 </title>
+  <title> decorator方式使用flask-admin | Pandapan0021 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="">
@@ -260,7 +273,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/01/sqlalchemy-engine/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/12/decorator方式使用flask-admin/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Panda-pan">
@@ -281,7 +294,7 @@
             
             
               
-                sqlalchemy-engine
+                decorator方式使用flask-admin
               
             
           </h1>
@@ -296,8 +309,8 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-01T05:19:42-04:00">
-                2017-04-01
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-12T15:25:38-04:00">
+                2017-04-12
               </time>
             
 
@@ -332,126 +345,62 @@
       
 
       
-        <h1 id="create-engine"><a href="#create-engine" class="headerlink" title="create_engine"></a>create_engine</h1><pre><code>def create_engine(*args, **kwargs):
-    strategy = kwargs.pop(&apos;strategy&apos;, default_strategy)
-    strategy = strategies.strategies[strategy]
-    return strategy.create(*args, **kwargs)
-</code></pre><p>default_strategy = ‘plain’</p>
-<p>strategies = {‘plain’: PlainEngineStrategy(), ‘threadlocal’: ThreadLocalEngineStrategy(), ‘mock’:..}</p>
-<p>以默认策略为例，strategy = PlainEngineStrategy()</p>
-<h1 id="strategy-create"><a href="#strategy-create" class="headerlink" title="strategy.create"></a>strategy.create</h1><pre><code>def create(self, name_or_url, **kwargs):
+        <h1 id="flask-admin"><a href="#flask-admin" class="headerlink" title="flask-admin"></a>flask-admin</h1><pre><code>from flask import Flask
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+from flask_sqlalchemy import SQLAlchemy
 
-    &quot;&quot;&quot;
-    use :arg:`name_or_url` construct URL object
-    :cls:`URL`:
-        class URL(object):
-            dirvername
-            username
-            password
-            host
-            port
-            database
-            query
+app = Flask(__name__)
+db = SQLAlchemy(app)
 
-            :method:
-            __tostring__
-            get_backend_name
-            get_driver_name
-            _instantiate_plugins
-            _get_entrypoint
-            get_dialect
-            translate_connect_args
-    &quot;&quot;&quot;
-    u = url.make_url(name_or_url)
-    &apos;&apos;&apos;
-    :method:`_instantiate_plugins`
-    get plugins in query dict
-    &apos;&apos;&apos;
-    plugins = u._instantiate_plugins(kwargs)
-    u.query.pop(&apos;plugin&apos;, None)
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True)
 
-    &apos;&apos;&apos;
-    :method:`_get_entrypoint()`
-    dirvername -&gt; dialect+driver
-    name -&gt; dialect.dirvier
-    cls -&gt; registry.load(name)
-    -&gt; dialect, driver = name.split(&apos;.&apos;)
-    -&gt; module = __import__(&apos;sqlalchemy.dialects.%s&apos;%dialect).dialects
-    &gt; __import__函数默认只返回最顶层包
-    以mysql为例：module=sqlalchemy.dialects
-    -&gt; module = sqlalchemy.dialects.mysql
-    -&gt; module = sqlalchemy.dialects.mysql.base
-    -&gt; loader =  lambda: sqlalchemy.dialects.mysql.base.dialect
-    -&gt; cls = sqlalchemy.dialects.mysql.base.dialect
-    entrypoint = cls
-    mysql中 base.dialects = mysqldb.dialect
-    则 entrypoint = sqlalchemy.dialects.mysql.mysqldb.dialect
-    entrypoint = sqlalchemy.dialects.mysql.mysqldb.MySQLDialect_mysqldb
-    &apos;&apos;&apos;
-    entrypoint = u._get_entrypoint()
+admin = Admin(app, name=&apos;test&apos;, template_mode=&apos;bootstrap3&apos;)
 
-    &apos;&apos;&apos;
-    :method:`get_dialect`
-    MySQLDialect_mysqldb继承关系：
-    sqlalchemy.engine.interfaces.Dialect
-                      |
-    sqlalchemy.engine.default.DefaultDialect
-                      |
-    sqlalchemy.dialects.mysql.base.MySQLDialect
-                      |
-    sqlalchemy.dialects.mysql.mysqldb.MySQLDialect_mysqldb
+admin.add_view(ModelView(User, db.session))
+</code></pre><p>正常的使用集中管理admin的视图，与flask的思想向抵触，以下转化为更flask的风格。</p>
+<pre><code>from flask import Flask
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+from flask_sqlalchemy import SQLAlchemy
 
-    -&gt; interfaces.Dialect.get_dialect(cls, url): return cls
-    则 dialect_cls = entrypoint
-    &apos;&apos;&apos;
-    dialect_cls = entrypoint.get_dialect_cls(u)
+app = Flask(__name__)
+db = SQLAlchemy(app)
+admin = Admin(app, name=&apos;test&apos;, template_mode=&apos;bootstrap3&apos;)
 
-    ...
+def add_view(admin_instance, model_view=ModelView, db=db):
+    def wrap(_cls):
+        admin_instance.add_view(model_view(_cls, db.session))
+        return _cls
+    return wrap
 
-    dialect = dialect_cls(**dialect_args)
+@add_view(admin, ModelView, db)
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True)
+</code></pre><p>这只是妥协的做法。<br>更优雅的做法为：</p>
+<pre><code>from flask_admin import Admin as _Admin
 
-    &apos;&apos;&apos;
-    :method:`create_connect_args`
-    -&gt;opts = url.translate_connect_args(database=&apos;db&apos;, username=&apos;user&apos;,password=&apos;passwd&apos;)
-    -&gt;opts = {&apos;host&apos;: url.host, &apos;db&apos;:url.database, &apos;user&apos;:url.username, &apos;passwd&apos;:url.password\
-              &apos;port&apos;:url.port}
-    -&gt;opts.updata(url.query)
-    -&gt;ssl = {&apos;ca&apos;: opts[&apos;ssl_ca&apos;], ...}
-    -&gt;opts[&apos;ssl&apos;] = ssl
-    -&gt;return [[], opts]
-    -&gt; cargs = [] cparams = opts
-    (cargs, cparams) = dialect.create_connect_args(u)
+class Admin(_Admin):
+    def __init__(self, db, **kwargs):
+        self.db = db
+        super(Admin, self).__init__(self, **kwargs)
 
-    cparams.update(pop_kwarg(&apos;connect_args&apos;, {}))
-    cargs = list(cargs)
+    def _add_view(self, model_view=ModelView, db=self.db):
+        def wrap(_cls):
+            self.add_view(model_view(_cls, db.session))
+            return _cls
+        return wrap
+</code></pre><p>之后可以用一下的方式调用</p>
+<pre><code>db = SQLAlchemy(app)
+admin = Admin(app, name=&apos;test&apos;, template_mode=&apos;bootstrape&apos;, db=db)
 
-    &apos;&apos;&apos;
-    -&gt;engineclass = sqlalchemy.engine.base.Engine
-    &apos;&apos;&apos;
-    engineclass = self.engine_cls
-
-    ...
-
-    &apos;&apos;&apos;
-    -&gt;engine = sqlalchemy.engine.base.Engine(pool, &apos;mysql&apos;, u, ...)
-    &apos;&apos;&apos;
-    engine = engineclass(pool, dialect, u, **engine_args)
-
-    &apos;&apos;&apos;
-    -&gt; _initialize = True
-    -&gt; do_on_connect = dialect.on_connect()(:method:`sqlalchemy.engine.default.DefaultDialect.on_connect`)
-    -&gt; do_on_connect = None
-    &apos;&apos;&apos;
-
-    ...
-
-    &apos;&apos;&apos;
-    sqlalchemy.dialects.mysql.mysqldb.MySQLDialect_mysqldb.engine_created(sqlalchemy.engine.base.Engine())
-    &apos;&apos;&apos;
-    dialect_cls.engine_created(engine)
-
-    return engine
-</code></pre><p>从源码可以看出 engine 的构建过程为，首先从传入的url构造URL对象，确定所使用的数据库、dbapi、传入参数、插件等等信息。<br><img src="http://docs.sqlalchemy.org/en/latest/_images/sqla_engine_arch.png" alt="sqlalchemy-engine"><br>创建engine时sqlalchemy并不会立刻链接数据库，连接发生在第一次数据库相关的操作发生之时。</p>
+@admin._add_view(ModelView)
+class User(db.Model):
+    ......
+</code></pre><p>这样就更flask了</p>
 
       
     </div>
@@ -473,6 +422,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/flask-python-decorator/" rel="tag"># flask python decorator</a>
+          
+        </div>
+      
 
       
         
@@ -482,8 +437,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/24/descriptor与property/" rel="next" title="descriptor与property">
-                <i class="fa fa-chevron-left"></i> descriptor与property
+              <a href="/2017/04/04/dynamic-programming/" rel="next" title="dynamic-programming">
+                <i class="fa fa-chevron-left"></i> dynamic-programming
               </a>
             
           </div>
@@ -491,10 +446,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/04/03/sql-join-on-and-where-diff/" rel="prev" title="sql-join-on-and-where-diff">
-                sql-join-on-and-where-diff <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -614,7 +565,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#create-engine"><span class="nav-number">1.</span> <span class="nav-text">create_engine</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#strategy-create"><span class="nav-number">2.</span> <span class="nav-text">strategy.create</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#flask-admin"><span class="nav-number">1.</span> <span class="nav-text">flask-admin</span></a></li></ol></div>
             
 
           </div>
