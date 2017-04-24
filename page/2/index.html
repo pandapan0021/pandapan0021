@@ -247,6 +247,171 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/28/redis命令/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panda-pan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pandapan0021">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/28/redis命令/" itemprop="url">
+                  redis命令
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-28T01:58:44-04:00">
+                2016-10-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h6 id="redis-string"><a href="#redis-string" class="headerlink" title="redis-string"></a>redis-string</h6><pre><code>set key value [nx|xx]
+incr/decr key
+incrby/decrby key val
+getset key new_val
+mset key_1 val_1 key_2 val_2 ....
+mget key_1 key_2 key3 ......
+exists key
+del key
+</code></pre><h6 id="redis-expires"><a href="#redis-expires" class="headerlink" title="redis-expires"></a>redis-expires</h6><pre><code>expire/pexpire key time
+get key [immediately | some_time]
+set key val ex some_time
+persist key
+ttl/pttl key
+</code></pre><h6 id="redis-lists"><a href="#redis-lists" class="headerlink" title="redis-lists"></a>redis-lists</h6><pre><code>lpush/rpush key val_1 val_2 val_3.....
+rpop/lpop key
+lrange start stop
+ltrim start stop
+brpop/blpop key timeout
+rpoplpush key
+lpoprpush key
+llen key
+</code></pre><h6 id="redis-hashes"><a href="#redis-hashes" class="headerlink" title="redis-hashes"></a>redis-hashes</h6><pre><code>hmset key field_1 val_1 field_2 val_2 field_3 val_3
+hget key field
+hgetall key
+hmget key field_1 field_2 field_3
+hincrby key field incr_val
+</code></pre><h6 id="redis-sets"><a href="#redis-sets" class="headerlink" title="redis-sets"></a>redis-sets</h6><pre><code>sadd key val_1 val_2 val_3
+smembers key
+sismember key val
+sinter key_1 key_2 key_3
+spop key
+sunionstore des src
+scard key
+srandmember key
+</code></pre><h6 id="redis-sorted-sets"><a href="#redis-sorted-sets" class="headerlink" title="redis-sorted sets"></a>redis-sorted sets</h6><pre><code>zadd key scores val
+zrange key start stop
+zrevrange key start stop
+zrange key start stop withscores
+zrangebyscore key -inf scores
+zremrangebyscores key start_scores stop_score
+zrank key val
+</code></pre><h6 id="redis-bitmap"><a href="#redis-bitmap" class="headerlink" title="redis-bitmap"></a>redis-bitmap</h6><pre><code>setbit key pos 1/0
+getbit key pos
+bitop [and|or|xor|not]
+bitcount key
+bitpos
+</code></pre><h6 id="redis-hyperloglogs"><a href="#redis-hyperloglogs" class="headerlink" title="redis-hyperloglogs"></a>redis-hyperloglogs</h6><pre><code>pfadd key val_1 val_2 val_3
+pfcount key
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/26/flask源码/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -682,7 +847,7 @@ application调用start_response传入status和headers
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
@@ -695,7 +860,7 @@ application调用start_response传入status和headers
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">Tags</span>
               
             </div>

@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="python reStructuredText," />
 
 
 
@@ -87,40 +87,22 @@
 
 
 
-<meta name="description" content="redis-stringset key value [nx|xx]
-incr/decr key
-incrby/decrby key val
-getset key new_val
-mset key_1 val_1 key_2 val_2 ....
-mget key_1 key_2 key3 ......
-exists key
-del key
-redis-expiresexpire/pexpire k">
+<meta name="description" content="Docstring结构package-docstringmodules exportedsubpackages exported
+module-docstringclasses exportedexceptions exportedfunctions exported
+class-docstringsummarize behaviorpublic methodsinstance variables">
 <meta property="og:type" content="article">
-<meta property="og:title" content="redis命令">
-<meta property="og:url" content="http://yoursite.com/2016/10/28/redis命令/index.html">
+<meta property="og:title" content="Python-DOC">
+<meta property="og:url" content="http://yoursite.com/2017/04/24/Python-DOC/index.html">
 <meta property="og:site_name" content="Pandapan0021">
-<meta property="og:description" content="redis-stringset key value [nx|xx]
-incr/decr key
-incrby/decrby key val
-getset key new_val
-mset key_1 val_1 key_2 val_2 ....
-mget key_1 key_2 key3 ......
-exists key
-del key
-redis-expiresexpire/pexpire k">
-<meta property="og:updated_time" content="2017-03-25T09:22:13.420Z">
+<meta property="og:description" content="Docstring结构package-docstringmodules exportedsubpackages exported
+module-docstringclasses exportedexceptions exportedfunctions exported
+class-docstringsummarize behaviorpublic methodsinstance variables">
+<meta property="og:updated_time" content="2017-04-24T16:57:57.143Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="redis命令">
-<meta name="twitter:description" content="redis-stringset key value [nx|xx]
-incr/decr key
-incrby/decrby key val
-getset key new_val
-mset key_1 val_1 key_2 val_2 ....
-mget key_1 key_2 key3 ......
-exists key
-del key
-redis-expiresexpire/pexpire k">
+<meta name="twitter:title" content="Python-DOC">
+<meta name="twitter:description" content="Docstring结构package-docstringmodules exportedsubpackages exported
+module-docstringclasses exportedexceptions exportedfunctions exported
+class-docstringsummarize behaviorpublic methodsinstance variables">
 
 
 
@@ -148,13 +130,13 @@ redis-expiresexpire/pexpire k">
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/10/28/redis命令/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/24/Python-DOC/"/>
 
 
 
 
 
-  <title> redis命令 | Pandapan0021 </title>
+  <title> Python-DOC | Pandapan0021 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="">
@@ -273,7 +255,7 @@ redis-expiresexpire/pexpire k">
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/28/redis命令/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/24/Python-DOC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Panda-pan">
@@ -294,7 +276,7 @@ redis-expiresexpire/pexpire k">
             
             
               
-                redis命令
+                Python-DOC
               
             
           </h1>
@@ -309,8 +291,8 @@ redis-expiresexpire/pexpire k">
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-28T01:58:44-04:00">
-                2016-10-28
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-24T10:06:03-04:00">
+                2017-04-24
               </time>
             
 
@@ -345,55 +327,39 @@ redis-expiresexpire/pexpire k">
       
 
       
-        <h6 id="redis-string"><a href="#redis-string" class="headerlink" title="redis-string"></a>redis-string</h6><pre><code>set key value [nx|xx]
-incr/decr key
-incrby/decrby key val
-getset key new_val
-mset key_1 val_1 key_2 val_2 ....
-mget key_1 key_2 key3 ......
-exists key
-del key
-</code></pre><h6 id="redis-expires"><a href="#redis-expires" class="headerlink" title="redis-expires"></a>redis-expires</h6><pre><code>expire/pexpire key time
-get key [immediately | some_time]
-set key val ex some_time
-persist key
-ttl/pttl key
-</code></pre><h6 id="redis-lists"><a href="#redis-lists" class="headerlink" title="redis-lists"></a>redis-lists</h6><pre><code>lpush/rpush key val_1 val_2 val_3.....
-rpop/lpop key
-lrange start stop
-ltrim start stop
-brpop/blpop key timeout
-rpoplpush key
-lpoprpush key
-llen key
-</code></pre><h6 id="redis-hashes"><a href="#redis-hashes" class="headerlink" title="redis-hashes"></a>redis-hashes</h6><pre><code>hmset key field_1 val_1 field_2 val_2 field_3 val_3
-hget key field
-hgetall key
-hmget key field_1 field_2 field_3
-hincrby key field incr_val
-</code></pre><h6 id="redis-sets"><a href="#redis-sets" class="headerlink" title="redis-sets"></a>redis-sets</h6><pre><code>sadd key val_1 val_2 val_3
-smembers key
-sismember key val
-sinter key_1 key_2 key_3
-spop key
-sunionstore des src
-scard key
-srandmember key
-</code></pre><h6 id="redis-sorted-sets"><a href="#redis-sorted-sets" class="headerlink" title="redis-sorted sets"></a>redis-sorted sets</h6><pre><code>zadd key scores val
-zrange key start stop
-zrevrange key start stop
-zrange key start stop withscores
-zrangebyscore key -inf scores
-zremrangebyscores key start_scores stop_score
-zrank key val
-</code></pre><h6 id="redis-bitmap"><a href="#redis-bitmap" class="headerlink" title="redis-bitmap"></a>redis-bitmap</h6><pre><code>setbit key pos 1/0
-getbit key pos
-bitop [and|or|xor|not]
-bitcount key
-bitpos
-</code></pre><h6 id="redis-hyperloglogs"><a href="#redis-hyperloglogs" class="headerlink" title="redis-hyperloglogs"></a>redis-hyperloglogs</h6><pre><code>pfadd key val_1 val_2 val_3
-pfcount key
-</code></pre>
+        <h1 id="Docstring结构"><a href="#Docstring结构" class="headerlink" title="Docstring结构"></a>Docstring结构</h1><h2 id="package-docstring"><a href="#package-docstring" class="headerlink" title="package-docstring"></a>package-docstring</h2><p>modules exported<br>subpackages exported</p>
+<h2 id="module-docstring"><a href="#module-docstring" class="headerlink" title="module-docstring"></a>module-docstring</h2><p>classes exported<br>exceptions exported<br>functions exported</p>
+<h2 id="class-docstring"><a href="#class-docstring" class="headerlink" title="class-docstring"></a>class-docstring</h2><p>summarize behavior<br>public methods<br>instance variables</p>
+<p>subclass interface</p>
+<h2 id="subclass-docstring"><a href="#subclass-docstring" class="headerlink" title="subclass-docstring"></a>subclass-docstring</h2><p>use the verb “override” to indicate replace<br>use the verb “extend” to indicate enhance</p>
+<h1 id="Low-level-syntax"><a href="#Low-level-syntax" class="headerlink" title="Low-level-syntax"></a>Low-level-syntax</h1><h2 id="literals"><a href="#literals" class="headerlink" title="literals"></a>literals</h2><p>double-backquotes <code>literals</code> (inline)<br>double colon :: literals (block)</p>
+<h2 id="doctest"><a href="#doctest" class="headerlink" title="doctest"></a>doctest</h2><pre>
+>>> cmdline command
+result
+>>> cmd
+result
+
+</pre>
+
+<h2 id="identifier"><a href="#identifier" class="headerlink" title="identifier"></a>identifier</h2><p>enclosed in single backquotes</p>
+<h2 id="identifier’s-role"><a href="#identifier’s-role" class="headerlink" title="identifier’s role"></a>identifier’s role</h2><p>enclose in colon (:role:)</p>
+<h2 id="lists"><a href="#lists" class="headerlink" title="lists"></a>lists</h2><p>*. line<br>  +. line<br>    -. line</p>
+<h2 id="directives-and-substitutions"><a href="#directives-and-substitutions" class="headerlink" title="directives and substitutions"></a>directives and substitutions</h2><ol>
+<li><p>.. image:: mylogo.png</p>
+</li>
+<li><p>The |biohazard| symbol</p>
+<p>.. |biohazard| image:: biohazard.png</p>
+</li>
+</ol>
+<h2 id="section-title"><a href="#section-title" class="headerlink" title="section title"></a>section title</h2><pre>
+This is a Section Title
+==========================
+
+This is a Subsection Title
+---------------------------------
+
+</pre>
+
       
     </div>
 
@@ -414,6 +380,12 @@ pfcount key
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/python-reStructuredText/" rel="tag"># python reStructuredText</a>
+          
+        </div>
+      
 
       
         
@@ -423,8 +395,8 @@ pfcount key
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/10/26/flask源码/" rel="next" title="flask源码">
-                <i class="fa fa-chevron-left"></i> flask源码
+              <a href="/2017/04/12/decorator方式使用flask-admin/" rel="next" title="decorator方式使用flask-admin">
+                <i class="fa fa-chevron-left"></i> decorator方式使用flask-admin
               </a>
             
           </div>
@@ -432,10 +404,6 @@ pfcount key
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/10/28/redis-py/" rel="prev" title="redis-py">
-                redis-py <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -555,7 +523,7 @@ pfcount key
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#redis-string"><span class="nav-number">1.</span> <span class="nav-text">redis-string</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#redis-expires"><span class="nav-number">2.</span> <span class="nav-text">redis-expires</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#redis-lists"><span class="nav-number">3.</span> <span class="nav-text">redis-lists</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#redis-hashes"><span class="nav-number">4.</span> <span class="nav-text">redis-hashes</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#redis-sets"><span class="nav-number">5.</span> <span class="nav-text">redis-sets</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#redis-sorted-sets"><span class="nav-number">6.</span> <span class="nav-text">redis-sorted sets</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#redis-bitmap"><span class="nav-number">7.</span> <span class="nav-text">redis-bitmap</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#redis-hyperloglogs"><span class="nav-number">8.</span> <span class="nav-text">redis-hyperloglogs</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docstring结构"><span class="nav-number">1.</span> <span class="nav-text">Docstring结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#package-docstring"><span class="nav-number">1.1.</span> <span class="nav-text">package-docstring</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#module-docstring"><span class="nav-number">1.2.</span> <span class="nav-text">module-docstring</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#class-docstring"><span class="nav-number">1.3.</span> <span class="nav-text">class-docstring</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#subclass-docstring"><span class="nav-number">1.4.</span> <span class="nav-text">subclass-docstring</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Low-level-syntax"><span class="nav-number">2.</span> <span class="nav-text">Low-level-syntax</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#literals"><span class="nav-number">2.1.</span> <span class="nav-text">literals</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#doctest"><span class="nav-number">2.2.</span> <span class="nav-text">doctest</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#identifier"><span class="nav-number">2.3.</span> <span class="nav-text">identifier</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#identifier’s-role"><span class="nav-number">2.4.</span> <span class="nav-text">identifier’s role</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lists"><span class="nav-number">2.5.</span> <span class="nav-text">lists</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#directives-and-substitutions"><span class="nav-number">2.6.</span> <span class="nav-text">directives and substitutions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#section-title"><span class="nav-number">2.7.</span> <span class="nav-text">section title</span></a></li></ol></li></ol></div>
             
 
           </div>
