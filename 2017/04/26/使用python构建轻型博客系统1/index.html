@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="jinja2," />
+  <meta name="keywords" content="python," />
 
 
 
@@ -87,16 +87,31 @@
 
 
 
-<meta name="description" content="Template(1) Tempalte类为核心模板对象。用来表示编译过的模板文件并用来渲染该模板文件。(2) 通常模板对象是从Enviroment 类生成的，但Template 类提供了构造器来生成模板对象。(3) 从Template类直接生成的模板对象包含一个指向临时环境的”environment”属性，所有由Template类直接生成的模板对象共享这个临时环境。(4)__new__args:">
+<meta name="description" content="分解：博客系统主要有三个部分组成
+
++----------+        +------------+    +---------+
+|  写作    |        |  页面生成  |    |  部署   |
++----------+        +------------+    +---------+
+     |                    |">
 <meta property="og:type" content="article">
-<meta property="og:title" content="jinja2-模板对象">
-<meta property="og:url" content="http://yoursite.com/2017/02/12/jinja2-Template/index.html">
+<meta property="og:title" content="使用python构建轻型博客系统1">
+<meta property="og:url" content="http://yoursite.com/2017/04/26/使用python构建轻型博客系统1/index.html">
 <meta property="og:site_name" content="Pandapan0021">
-<meta property="og:description" content="Template(1) Tempalte类为核心模板对象。用来表示编译过的模板文件并用来渲染该模板文件。(2) 通常模板对象是从Enviroment 类生成的，但Template 类提供了构造器来生成模板对象。(3) 从Template类直接生成的模板对象包含一个指向临时环境的”environment”属性，所有由Template类直接生成的模板对象共享这个临时环境。(4)__new__args:">
-<meta property="og:updated_time" content="2017-03-25T09:22:11.765Z">
+<meta property="og:description" content="分解：博客系统主要有三个部分组成
+
++----------+        +------------+    +---------+
+|  写作    |        |  页面生成  |    |  部署   |
++----------+        +------------+    +---------+
+     |                    |">
+<meta property="og:updated_time" content="2017-04-26T13:50:07.909Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="jinja2-模板对象">
-<meta name="twitter:description" content="Template(1) Tempalte类为核心模板对象。用来表示编译过的模板文件并用来渲染该模板文件。(2) 通常模板对象是从Enviroment 类生成的，但Template 类提供了构造器来生成模板对象。(3) 从Template类直接生成的模板对象包含一个指向临时环境的”environment”属性，所有由Template类直接生成的模板对象共享这个临时环境。(4)__new__args:">
+<meta name="twitter:title" content="使用python构建轻型博客系统1">
+<meta name="twitter:description" content="分解：博客系统主要有三个部分组成
+
++----------+        +------------+    +---------+
+|  写作    |        |  页面生成  |    |  部署   |
++----------+        +------------+    +---------+
+     |                    |">
 
 
 
@@ -124,13 +139,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/02/12/jinja2-Template/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/26/使用python构建轻型博客系统1/"/>
 
 
 
 
 
-  <title> jinja2-模板对象 | Pandapan0021 </title>
+  <title> 使用python构建轻型博客系统1 | Pandapan0021 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="">
@@ -249,7 +264,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/12/jinja2-Template/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/26/使用python构建轻型博客系统1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Panda-pan">
@@ -270,7 +285,7 @@
             
             
               
-                jinja2-模板对象
+                使用python构建轻型博客系统1
               
             
           </h1>
@@ -285,8 +300,8 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-12T11:51:28-05:00">
-                2017-02-12
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-26T04:52:07-04:00">
+                2017-04-26
               </time>
             
 
@@ -321,49 +336,52 @@
       
 
       
-        <h6 id="Template"><a href="#Template" class="headerlink" title="Template"></a>Template</h6><h6 id="1-Tempalte类为核心模板对象。用来表示编译过的模板文件并用来渲染该模板文件。"><a href="#1-Tempalte类为核心模板对象。用来表示编译过的模板文件并用来渲染该模板文件。" class="headerlink" title="(1) Tempalte类为核心模板对象。用来表示编译过的模板文件并用来渲染该模板文件。"></a>(1) Tempalte类为核心模板对象。用来表示编译过的模板文件并用来渲染该模板文件。</h6><h6 id="2-通常模板对象是从Enviroment-类生成的，但Template-类提供了构造器来生成模板对象。"><a href="#2-通常模板对象是从Enviroment-类生成的，但Template-类提供了构造器来生成模板对象。" class="headerlink" title="(2) 通常模板对象是从Enviroment 类生成的，但Template 类提供了构造器来生成模板对象。"></a>(2) 通常模板对象是从Enviroment 类生成的，但Template 类提供了构造器来生成模板对象。</h6><h6 id="3-从Template类直接生成的模板对象包含一个指向临时环境的”environment”属性，所有由Template类直接生成的模板对象共享这个临时环境。"><a href="#3-从Template类直接生成的模板对象包含一个指向临时环境的”environment”属性，所有由Template类直接生成的模板对象共享这个临时环境。" class="headerlink" title="(3) 从Template类直接生成的模板对象包含一个指向临时环境的”environment”属性，所有由Template类直接生成的模板对象共享这个临时环境。"></a>(3) 从Template类直接生成的模板对象包含一个指向临时环境的”environment”属性，所有由Template类直接生成的模板对象共享这个临时环境。</h6><h6 id="4-new"><a href="#4-new" class="headerlink" title="(4)__new__"></a>(4)__new__</h6><p>args:</p>
-<ol>
-<li>source: 模板字符串。</li>
-<li>block_start_string(默认为 { % )</li>
-<li>block_end_string(默认为 % } )</li>
-<li>variable_start_string(默认为 { { )</li>
-<li>variable_end_string(默认为 } } )</li>
-<li>comment_start_string(默认为 { # )</li>
-<li>comment_end_string(默认为 # } )</li>
-<li>line_statement_prefix(None)</li>
-<li>line_comment_prefix(None)</li>
-<li>trim_blocks(False)</li>
-<li>lstrip_blocks(False)</li>
-<li>newline_sequence(默认为 \n )</li>
-<li>keep_trailing_newline(False)</li>
-<li>extensions</li>
-<li>optimized</li>
-<li>undefine</li>
-<li>finalize</li>
-<li>autoescape(此处默认为False，所以从字符串直接构造的模板对象不会自动转义，但是Environment生成的模板对象默认自动转义)</li>
-<li>enable_async(False)</li>
-</ol>
-<p>函数体：<br>通过get_spontaneous_environment生成环境变量env，再通过env.from_string函数生成模板对象。</p>
-<p>######(5)from_code<br>此函数从编译过的模板代码和globals参数创建模板对象，供loaders和environment调用。</p>
-<p>######(6)from_module_dict<br>此函数通过模块构造模板对象，供module loadder调用</p>
-<p>######(7)_from_namespace<br>由from_code与from_module_dict函数调用真正创建模板对象的函数</p>
-<p>######(8)render/render_async<br>渲染函数，render_async需要支持await特性的python版本，目前还没有实现。</p>
-<p>######(9)stream<br>同generate但是返回TemplateStream的实例</p>
-<p>######(10)generate/generate_async<br>对于大规模的模板，此函数可以一条语句接着一条语句渲染并一段一段的生成。异步方法同样需要await支持(未实现)</p>
-<pre><code>从几个渲染函数看出，渲染的核心功能由Template.new_context函数与Template.root_render_func函数提供
-</code></pre><p>######(11)new_context<br>为模板对象创建上下文环境，为Context类的实例。全局变量默认加入此上下文。</p>
-<p>######(12)make_module/make_module_async<br>默认参数下和module方法一致。</p>
-<p>######(13)module 调用 _get_default_module 返回self._module<br>由make_module 默认参数构造。</p>
-<p>######(14)get_corresponding_lineno 返回行号</p>
-<p>######(15)is_up_to_date 检测是否需要更新模板</p>
-<p>######(16)debug_info 返回debug信息</p>
-<p>####flask调用jinja2过程</p>
-<p>######flask/templating.py<br>render_template函数调用_render渲染模板<br>首先，从flask的本地应用上下文栈中取出应用上下文ctx。更新模板环境。<br>ctx.app.jinja_env.get_or_select_template生成模板对象。</p>
-<p>######flask/app.py<br>jinja_env调用create_jinja_environment<br>create_jinja_environment首先生成jinja配置选项，通过jinja_environment生成jinja环境，jinja_environment就是flask/templating.py/Evnironment。</p>
-<p>######flask/templating.py<br>通过jinja2/environment.py/Environment构造环境</p>
-<p>ctx.app.jinja_env就是一个jinja2/environment.py/Environment实例。</p>
-<p>######jinja2/environment.py<br>Environment.get_or_select_template<br>如果参数为字符串调用get_template\，否则调用select_template</p>
-<p>Environment.select_template<br>通过_load_template生成Template对象</p>
+        <h1 id="分解："><a href="#分解：" class="headerlink" title="分解："></a>分解：</h1><p>博客系统主要有三个部分组成</p>
+<pre>
++----------+        +------------+    +---------+
+|  写作    |        |  页面生成  |    |  部署   |
++----------+        +------------+    +---------+
+     |                    |                |
+  标记语言             页面主题         github/
+     |                    |              vps
+  解析器               模板系统
+</pre>
+
+<p>现在大多数的标记语言使用的是markdown，虽然简单强大，但是对于python程序员来说最<br>熟悉的还是reStructText。RST已经成了python的准官方语言。所以我们使用RST作为后端<br>的写作语言。</p>
+<p>模板系统我们选用jinja2</p>
+<p>部署到github使用GitPython，vps通过ftplib使用ftp协议进行传输</p>
+<h2 id="reStructText"><a href="#reStructText" class="headerlink" title="reStructText"></a>reStructText</h2><p>最好的RST解析器当然是<a href="https://www.python.org/dev/peps/pep-0258/" target="_blank" rel="external">docutils</a></p>
+<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>查询配置中设置的主题文件夹，将此文件夹作为模板系统的主工作目录，在通过模板生成<br>页面文件写入待部署文件夹之后将静态文件拷贝到待部署文件夹。</p>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>对于github直接将仓库push即可<br>对于vps则删除所有远端文件后，将本地文件全部上传。</p>
+<h1 id="实现："><a href="#实现：" class="headerlink" title="实现："></a>实现：</h1><h2 id="RST2html"><a href="#RST2html" class="headerlink" title="RST2html"></a>RST2html</h2><h3 id="jinja2文件结构"><a href="#jinja2文件结构" class="headerlink" title="jinja2文件结构"></a>jinja2文件结构</h3><pre>
+ root/---+--------index.html
+         +--------article.html 
+         |                 
+         |
+         +-------partials/ -----+------header.html
+                                +------sidebar.html
+                                +------footer.html
+</pre>
+
+<p>index:</p>
+<pre><code>{% extend "layout.html" %}
+{% include "header.html" %}
+{% for article in articles %}
+		  <p>article</p>
+		{% endfor %}
+{% include "sidebar.html" %}
+{% include &quot;footer.html&quot;}
+</code></pre><h3 id="目标结构"><a href="#目标结构" class="headerlink" title="目标结构"></a>目标结构</h3><pre>
+/ +---------index.html
+  +--------+-artilces/ +----index.html
+                       +----2017/ +---------index.html
+                       |          +---------1/ -+----index.html
+                       |          |             +----(articles)
+                       |          +---------2/ -....
+                       |          +---------....
+                       +----2016/ +.....
+</pre>
+
 
       
     </div>
@@ -387,7 +405,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/jinja2/" rel="tag"># jinja2</a>
+            <a href="/tags/python/" rel="tag"># python</a>
           
         </div>
       
@@ -400,8 +418,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/11/11/sqlalchemy源码之Query/" rel="next" title="sqlalchemy源码之Query">
-                <i class="fa fa-chevron-left"></i> sqlalchemy源码之Query
+              <a href="/2017/04/24/Python-DOC/" rel="next" title="Python-DOC">
+                <i class="fa fa-chevron-left"></i> Python-DOC
               </a>
             
           </div>
@@ -409,10 +427,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/24/descriptor与property/" rel="prev" title="descriptor与property">
-                descriptor与property <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -532,7 +546,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#Template"><span class="nav-number">1.</span> <span class="nav-text">Template</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#1-Tempalte类为核心模板对象。用来表示编译过的模板文件并用来渲染该模板文件。"><span class="nav-number">2.</span> <span class="nav-text">(1) Tempalte类为核心模板对象。用来表示编译过的模板文件并用来渲染该模板文件。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-通常模板对象是从Enviroment-类生成的，但Template-类提供了构造器来生成模板对象。"><span class="nav-number">3.</span> <span class="nav-text">(2) 通常模板对象是从Enviroment 类生成的，但Template 类提供了构造器来生成模板对象。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-从Template类直接生成的模板对象包含一个指向临时环境的”environment”属性，所有由Template类直接生成的模板对象共享这个临时环境。"><span class="nav-number">4.</span> <span class="nav-text">(3) 从Template类直接生成的模板对象包含一个指向临时环境的”environment”属性，所有由Template类直接生成的模板对象共享这个临时环境。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#4-new"><span class="nav-number">5.</span> <span class="nav-text">(4)__new__</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分解："><span class="nav-number">1.</span> <span class="nav-text">分解：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#reStructText"><span class="nav-number">1.1.</span> <span class="nav-text">reStructText</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主题"><span class="nav-number">1.2.</span> <span class="nav-text">主题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署"><span class="nav-number">1.3.</span> <span class="nav-text">部署</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现："><span class="nav-number">2.</span> <span class="nav-text">实现：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RST2html"><span class="nav-number">2.1.</span> <span class="nav-text">RST2html</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#jinja2文件结构"><span class="nav-number">2.1.1.</span> <span class="nav-text">jinja2文件结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标结构"><span class="nav-number">2.1.2.</span> <span class="nav-text">目标结构</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
