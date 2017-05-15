@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="linux bash python," />
 
 
 
@@ -87,19 +87,25 @@
 
 
 
-<meta name="description" content="descriptor   描述器是指作为对象的属性存在并且定义了__get__,__set__,__delete__方法的对象。   描述器改变了对象属性的默认访问方式。   当访问对象属性时，默认的行为方式如下：a.x -&amp;gt; a.__dict__[‘x’] -&amp;gt; type(a).__dict__[‘x’]…..
-当说访问的属性定义了描述器方法的时候，则以如下方式访问：a.x -&amp;gt">
+<meta name="description" content="Introduction现代shell都内置了命令不全功能，通常通过 TAB 键触发。自动补全可以用来补全 PATH 目录下的命令、文件名、目录名。
+现在shell已经可以用来补全命令的参数，比较著名的支持此功能的shell有，zsh，bash。
+在Debian系的系统中bash提供了命令行不全文件/etc/bash_completion,
+如果系统中含有该文件但是使用TAB无法补全参数，可以使用">
 <meta property="og:type" content="article">
-<meta property="og:title" content="descriptor与property">
-<meta property="og:url" content="http://yoursite.com/2017/03/24/descriptor与property/index.html">
+<meta property="og:title" content="linux-completion">
+<meta property="og:url" content="http://yoursite.com/2017/05/12/linux-completion/index.html">
 <meta property="og:site_name" content="Pandapan0021">
-<meta property="og:description" content="descriptor   描述器是指作为对象的属性存在并且定义了__get__,__set__,__delete__方法的对象。   描述器改变了对象属性的默认访问方式。   当访问对象属性时，默认的行为方式如下：a.x -&amp;gt; a.__dict__[‘x’] -&amp;gt; type(a).__dict__[‘x’]…..
-当说访问的属性定义了描述器方法的时候，则以如下方式访问：a.x -&amp;gt">
-<meta property="og:updated_time" content="2017-04-04T03:10:22.618Z">
+<meta property="og:description" content="Introduction现代shell都内置了命令不全功能，通常通过 TAB 键触发。自动补全可以用来补全 PATH 目录下的命令、文件名、目录名。
+现在shell已经可以用来补全命令的参数，比较著名的支持此功能的shell有，zsh，bash。
+在Debian系的系统中bash提供了命令行不全文件/etc/bash_completion,
+如果系统中含有该文件但是使用TAB无法补全参数，可以使用">
+<meta property="og:updated_time" content="2017-05-15T02:05:28.616Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="descriptor与property">
-<meta name="twitter:description" content="descriptor   描述器是指作为对象的属性存在并且定义了__get__,__set__,__delete__方法的对象。   描述器改变了对象属性的默认访问方式。   当访问对象属性时，默认的行为方式如下：a.x -&amp;gt; a.__dict__[‘x’] -&amp;gt; type(a).__dict__[‘x’]…..
-当说访问的属性定义了描述器方法的时候，则以如下方式访问：a.x -&amp;gt">
+<meta name="twitter:title" content="linux-completion">
+<meta name="twitter:description" content="Introduction现代shell都内置了命令不全功能，通常通过 TAB 键触发。自动补全可以用来补全 PATH 目录下的命令、文件名、目录名。
+现在shell已经可以用来补全命令的参数，比较著名的支持此功能的shell有，zsh，bash。
+在Debian系的系统中bash提供了命令行不全文件/etc/bash_completion,
+如果系统中含有该文件但是使用TAB无法补全参数，可以使用">
 
 
 
@@ -127,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/24/descriptor与property/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/05/12/linux-completion/"/>
 
 
 
 
 
-  <title> descriptor与property | Pandapan0021 </title>
+  <title> linux-completion | Pandapan0021 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="">
@@ -252,7 +258,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/24/descriptor与property/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/12/linux-completion/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Panda-pan">
@@ -273,7 +279,7 @@
             
             
               
-                descriptor与property
+                linux-completion
               
             
           </h1>
@@ -288,8 +294,8 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-24T22:33:54-04:00">
-                2017-03-24
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-12T13:03:04-04:00">
+                2017-05-12
               </time>
             
 
@@ -324,60 +330,114 @@
       
 
       
-        <h1 id="descriptor"><a href="#descriptor" class="headerlink" title="descriptor"></a>descriptor</h1><p>   描述器是指作为对象的属性存在并且定义了__get__,__set__,__delete__方法的对象。<br>   描述器改变了对象属性的默认访问方式。<br>   当访问对象属性时，默认的行为方式如下：<br>a.x -&gt; a.__dict__[‘x’] -&gt; type(a).__dict__[‘x’]…..</p>
-<p>当说访问的属性定义了描述器方法的时候，则以如下方式访问：<br>a.x -&gt; x.__get__(a, type(a))<br>a.x = 1 -&gt; x.__set__(a, 1)<br>del a.x -&gt; x.__delete__(a)</p>
-<p>当通过类对象而不是实例对象访问时描述器方法的instance参数对None<br>当对象定义了__set__/__delete__中的任意一个或都定义时，此对象为一个数据描述器，数据描述器总是覆盖实例中重新定义的同名属性。如果对象只定义了__get__方法，则它为一个无数据描述器，实例中定义的属性可以覆盖此描述器。</p>
-<h1 id="descriptor的应用"><a href="#descriptor的应用" class="headerlink" title="descriptor的应用"></a>descriptor的应用</h1><p>1.staticmethod()</p>
-<pre><code>def staticmethod(f):
-    class wrap(object):
-        def __get__(self, instance, owner):
-            return f
-    return wrap()
-</code></pre><p>这样就实现了一个简单的静态方法包裹函数。<br>2.classmethod()<br>与staticmethod类似</p>
-<p>3.property</p>
-<p>property函数有两种使用方法<br>方法一、</p>
-<pre><code>class C:
-    def __init__(self):
-        self._x = None
-    def getx(self):
-        return self._x
-    def setx(self, value):
-        self._x = value
-    def delx(self):
-        del self._x
-    x = property(getx, setx, delx, &quot;x property&quot;)
-</code></pre><p>方法二、</p>
-<pre><code>class C:
-    def __init__(self):
-        self._x = None
-    @property
-    def x(self):
-        return self._x
-    @x.setter
-    def x(self, value):
-        self._x = value
-    @x.deleter
-    def x(self):
-        del self._x
-</code></pre><h5 id="class-property-fget-None-fset-None-fdel-None-doc-None-简单实现"><a href="#class-property-fget-None-fset-None-fdel-None-doc-None-简单实现" class="headerlink" title="class property(fget=None, fset=None, fdel=None, doc=None)简单实现"></a>class property(fget=None, fset=None, fdel=None, doc=None)简单实现</h5><pre><code>class property(object):
-    def __init__(self, fget=None, fset=None, \
-                       fdel=None, doc=None):
-        self._fget = fget
-        self._fset = fset
-        self._fdel = fdel
-        self.__doc__ = doc
-    def setter(self, f):
-        self._fset = f
-        return self
-    def deleter(self, f):
-        self._fdel = f
-        return self
-    def __get__(self, instance, owner):
-        return self._fget(instance)
-    def __set__(self, instance, value):
-        self._fset(instance, value)
-    def __delete__(self, instance):
-        self._fdel(instance)
+        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>现代shell都内置了命令不全功能，通常通过 <em>TAB</em> 键触发。<br>自动补全可以用来补全 <em>PATH</em> 目录下的命令、文件名、目录<br>名。</p>
+<p>现在shell已经可以用来补全命令的参数，比较著名的支持此<br>功能的shell有，<em>zsh</em>，<em>bash</em>。</p>
+<p>在Debian系的系统中bash提供了命令行不全文件/etc/bash_completion,</p>
+<p>如果系统中含有该文件但是使用TAB无法补全参数，可以使用如下命令：</p>
+<pre><code>Linux@linux:~$ . /etc/bash_completion 
+</code></pre><p>补全功能需要使用多个内部bash命令，不如complete。想要对默认的<br>completion进行拓展可以简单的创建一个补全文件，并放入<br>/etc/bash_completion.d/文件夹中。</p>
+<p>当载入bash_completion文件时，所有bash_completion.d文件夹中的文件<br>都将被载入，使得加入自定义补全很容易。</p>
+<p>以补全hostnames为例，当使用VNC远程管理多个主机时，需要使用如下命令：</p>
+<pre><code>Linux@linux:~$ xvncviewer hostname
+</code></pre><p>为了使得bash可以为了xvncviewer自动补全hostname参数。我们使用如下<br>命令让bash知道xvncviewer需要hostname参数：</p>
+<pre><code>Linux@linux:~$ complete -F _known_hosts xvncviewer
+</code></pre><p>现在就可以使用TAB对hostname参数进行补全了。</p>
+<p>其中_known_hosts 在bash_completion中定义。</p>
+<h2 id="自定义completion"><a href="#自定义completion" class="headerlink" title="自定义completion"></a>自定义completion</h2><h1 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h1><p>假设我们有一个命令foo，包含三个参数：</p>
+<ul>
+<li><p>–help</p>
+<ul>
+<li>显示帮助选项并退出</li>
+</ul>
+</li>
+<li><p>–version</p>
+<ul>
+<li>显示版本号并退出</li>
+</ul>
+</li>
+<li><p>–verbose</p>
+<ul>
+<li>以verbose指定的方式运行foo</li>
+</ul>
+</li>
+</ul>
+<p>为了处理这些参数，首先创建/etc/bash_completion.d/foo文件。<br>文件内容如下：</p>
+<pre><code>_foo()
+{
+    local cur prev opts
+    COMPREPLY=()
+    cur=&quot;${COMP_WORDS[COMP_CWORD]}&quot;
+    prev=&quot;${COMP_WORDS[COMP_WORD-1]}&quot;
+    opts=&quot;--help --verbose --version&quot;
+
+    if [[ ${cur} == -* ]]
+    then
+        COMPREEPLY=( $(compgen -W &quot;${opts}&quot; -- ${cur}) )
+        return 0
+    fi
+}
+complete -F _foo foo
+</code></pre><p>测试程序foo:</p>
+<pre><code>#!/usr/bin/env python
+from argparse import ArgumentParser
+
+parser = ArgumentParser(prog=&quot;foo&quot;, usage=&quot;%(prog)s [options]&quot;)
+parser.add_argument(&apos;--version&apos;, action=&quot;store_true&quot;, default=False, help=
+                   &quot;show version&quot;)
+parser.add_argument(&apos;--verbose&apos;, action=&quot;store&quot;, dest=&quot;verbose&quot;, nargs=1)
+
+args = parser.parse_args()
+
+if args.version:
+    return &quot;V1.0.0&quot;
+elif args.verbose:
+    return &quot;Run with %s&quot; % args.verbose
+else:
+    parser.print_help()
+</code></pre><h1 id="命令补全工作过程："><a href="#命令补全工作过程：" class="headerlink" title="命令补全工作过程："></a>命令补全工作过程：</h1><p>上例中提供了一个简单的bash函数来处理命令补全。</p>
+<p>首先此函数定义了一些局部变量，<br>cur保存现在已经的被输入的词，prev保存之前输入的词，opts提供需要补全的选项。</p>
+<p>之后使用compgen命令生成补全列表：</p>
+<pre><code>COMPREPLY=( $(compgen -W &quot;${opts}&quot; -- ${cur}) )
+</code></pre><p>compgen会根据用户输入的词来生成合适的补全列表，再把此列表赋值给COMPREPLY变量，<br>COMPREPLY是一个特殊的变量，命令补全将使用它来表示将要输出的补全候补。</p>
+<p>从<a href="http://www.gnu.org/software/bash/manual/bash.html" target="_blank" rel="external">bash reference manual</a>中对<br>COMPREPLY有详细的描述。</p>
+<h2 id="python实现completion"><a href="#python实现completion" class="headerlink" title="python实现completion"></a>python实现completion</h2><p>在django中实现了completion，原理就是根据调用的环境不同，使用两个不同的方式执行命令。</p>
+<pre><code>class Command:
+    def __init__(self, argv=None):
+        self.argv = argv or sys.argv[:]
+
+    def complete(self):
+        if &apos;AUTO_COMPLETE&apos; not in os.environ:
+            return
+        cwords = os.environ[&apos;COMP_WORDS&apos;]
+        cword = int(os.environ[&apos;COMP_CWORD&apos;])
+
+        try:
+            curr = cowrds[cword]
+        except IndexError:
+            curr = &apos;&apos;
+
+        options = [&apos;--help&apos;, &apos;--version&apos;, &apos;--verbose&apos;]
+
+        print(&apos; &apos;.join(sorted(filter(lambda x: x.startswith(curr), options))))
+
+        sys.exit(0)
+
+    def execute(self):
+        self.complete()
+
+        print(&quot;execute !!!&quot;)
+
+if __name__ == &apos;__main__&apos;:
+    com = Command()
+    com.execute()
+</code></pre><p>completion script:</p>
+<pre><code>_py_completion(){
+    COMPREPLY=( $( COMP_WORDS=&quot;${COMP_WORDS[*]}&quot; \
+                   COMP_CWORD=$COMP_CWORD \
+                   AUTO_COMPLETE=1 $1 ) )
+}
+
+complete -F _py_completion -o default manage
 </code></pre>
       
     </div>
@@ -399,6 +459,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/linux-bash-python/" rel="tag"># linux bash python</a>
+          
+        </div>
+      
 
       
         
@@ -408,8 +474,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/02/12/jinja2-Template/" rel="next" title="jinja2-模板对象">
-                <i class="fa fa-chevron-left"></i> jinja2-模板对象
+              <a href="/2017/04/26/使用python构建轻型博客系统1/" rel="next" title="使用python构建轻型博客系统1">
+                <i class="fa fa-chevron-left"></i> 使用python构建轻型博客系统1
               </a>
             
           </div>
@@ -417,10 +483,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/04/01/sqlalchemy-engine/" rel="prev" title="sqlalchemy-engine">
-                sqlalchemy-engine <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -540,7 +602,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#descriptor"><span class="nav-number">1.</span> <span class="nav-text">descriptor</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#descriptor的应用"><span class="nav-number">2.</span> <span class="nav-text">descriptor的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#class-property-fget-None-fset-None-fdel-None-doc-None-简单实现"><span class="nav-number">2.0.0.0.1.</span> <span class="nav-text">class property(fget=None, fset=None, fdel=None, doc=None)简单实现</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义completion"><span class="nav-number">2.</span> <span class="nav-text">自定义completion</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Example"><span class="nav-number"></span> <span class="nav-text">Example</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#命令补全工作过程："><span class="nav-number"></span> <span class="nav-text">命令补全工作过程：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#python实现completion"><span class="nav-number">1.</span> <span class="nav-text">python实现completion</span></a></li></ol></div>
             
 
           </div>

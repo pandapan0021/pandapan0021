@@ -247,6 +247,166 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/07/flask-redirect相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panda-pan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pandapan0021">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/07/flask-redirect相关/" itemprop="url">
+                  flask-redirect相关
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-07T16:48:23-05:00">
+                2016-11-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在使用flask-login时，由login_required跳转到login_view完成登录之后可以由request.arg[‘next’]跳转回登录前的页面。<br>那不是由login_required产生的跳转怎么样主动重定向回之前的视图呢？<br>先看一下flask-login的做法：<br>源码flask_login/utils.py</p>
+<pre><code>def login_required(func):
+    @wraps(func)
+    def decorated_view(*args, **kwargs):
+        if request.method in EXEMPT_METHODS:
+ #  EXEMPT_METHODS = [&apos;optionh&apos;]
+            return func(*args, **kwargs)
+        elif current_app.login_manager._login_disabled:
+            return func(*args, **kwargs)
+        elif not current_user.is_authenticated:
+            return current_app.login_manager.unauthorized()
+        return func(*args, **kwargs)
+    return edcorated_view
+</code></pre><p>忽略判断语句只看用户未登录时执行的动作，login_manager为LoginManager的实例。<br>源码flask_login/login_manager.py</p>
+<pre><code>class LoginManager(object):
+    ......
+    def unauthorized(self):
+        user_unauthorized.send(current_app._get_current_object())
+        if self.unauthorized_callback:
+            reurn self.unauthorized_callback()
+        if request.blueprint in self.blueprint_login_views:
+            login_view = self.blueprint_login_views[request.blueprint]
+        else:
+            login_view = self.login_view
+        if not login_view:
+            abort(401)
+        if self.login_message:
+            if self.localize_callback is not NOne:
+                flash(self.localize_callback(self.login_message), category=self.login_message_category)
+            else:
+                flash(self.login_message, category=self.login_message_category)
+         return redirect(login_url(login_view, request.url))
+</code></pre><p>最后重定向到了login_url(login_view, request.url)</p>
+<p>flask_login/utils</p>
+<pre><code>def logni_url(login_view, next_url=None, next_field=&apos;next&apos;):
+    ........
+    base=url_for(login_view)
+    parts=list(urlparse(base))
+    md = url_decode(parts[4])
+    md[next_field]=make_next_param(base, next_url)
+    parts[4] = url_encode(md, sort=True)
+    return urlunparse(parts)
+</code></pre><p>request.url是的形如<a href="http://www.example.com/myapplication/π/page.html?x=y的当前完整路径。" target="_blank" rel="external">http://www.example.com/myapplication/π/page.html?x=y的当前完整路径。</a><br>可以看出flask_login做法就是把request.url做成next参数，查api可知request对于当前uri的属性一共有6个：<br>        path<br>        full_path<br>        script_root<br>        base_url<br>        url<br>        url_root<br>这些属性都是从werkzeug的BaseRequest类继承而来。<br>BaseRequest除了这几个uri相关的属性外 还有一个 CommonRequestDescriptorsMixin.referrer 表示发出请求的路径， 它们都是Request的父类。<br>所以要得到跳转前的rul可以使用flask-login的request.url也可使用request.referrer</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/28/redis-py/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -964,7 +1124,7 @@ application调用start_response传入status和headers
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
@@ -977,7 +1137,7 @@ application调用start_response传入status和headers
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">Tags</span>
               
             </div>
