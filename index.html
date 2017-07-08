@@ -247,6 +247,177 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/18/python-ast/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panda-pan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pandapan0021">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/18/python-ast/" itemprop="url">
+                  python-ast
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-18T08:36:10-04:00">
+                2017-06-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="AST"><a href="#AST" class="headerlink" title="AST"></a>AST</h1><p>抽象语法树是源代码的抽象语法结构的树状表现形式。<a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree" target="_blank" rel="external">Wiki</a></p>
+<h1 id="从源码到AST"><a href="#从源码到AST" class="headerlink" title="从源码到AST"></a>从源码到AST</h1><p>python中有两种方法得到AST</p>
+<h2 id="compile"><a href="#compile" class="headerlink" title="compile"></a>compile</h2><pre><code>compile(source, filename, mode, flags=0, dont_inherit=False, optimize=-1)
+</code></pre><p>当flags=ast.PyCF_ONLY_AST时此函数返回抽象语法树。</p>
+<h2 id="ast-module"><a href="#ast-module" class="headerlink" title="ast module"></a>ast module</h2><pre><code>ast.parse(source, filename=&apos;&lt;unknown&gt;&apos;, mode=&apos;exec&apos;)
+</code></pre><h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><pre><code>import ast
+
+source = &apos;s = 6 + 8&apos;
+node = ast.parse(source, mode=&apos;exec&apos;)
+
+print ast.dump(node)
+</code></pre><p>输出如下</p>
+<pre><code>Module(body=[
+    Assign(targets=[Name(id=&apos;s&apos;, ctx=Store())],
+           value=BinOp(left=Num(n=6),
+                       op=Add(),
+                       right=Num(n=8)))
+            ])
+</code></pre><p>得到ast之后可以使用以下方法执行代码</p>
+<pre><code>codeobj = compile(node, filename=&apos;&lt;ast&gt;&apos;, mode=&apos;exec&apos;)
+
+exec(codeobj)
+</code></pre><h2 id="Example2"><a href="#Example2" class="headerlink" title="Example2"></a>Example2</h2><p>在python中，1/3被转化为浮点数，但是浮点数并不能准确表示1/3，现在我们使用ast将1/3<br>表示成自定义类Fraction的实例。</p>
+<pre><code>class Fraction(object):
+    def __init__(self, numerator， denominator):
+        self.numerator = numerator
+        self.denominator = denominator
+
+    def __str__(self):
+        return &quot;Fraction a=%s, b=%s&quot; %(str(a), str(b))
+
+from ast import NodeTransformer, \
+        Div, Num, Name, Call, Load, \
+        parse, fix_missing_locations
+
+source = &apos;a = 1/3&apos;
+
+ast_tree = parse(source)
+
+class FractionTransformer(NodeTransformer):
+    def visit_BinOp(self, node):
+        if insinstance(node.op, Div):
+            n = Num(node.left.n)
+            d = Num(node.right.n)
+            return Call(func=Name(id=&apos;Fraction&apos;, \
+                    ctx=Load()), args=[n, d], keywords=[], \
+                    starargs=Node, kwargs=None)
+
+FractionTransformer().visit(ast_tree)
+fix_missing_locations(ast_tree)
+
+exec(compile(ast_tree, &apos;&lt;ast&gt;&apos;, &apos;exec&apos;))
+
+print a
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/12/linux-completion/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -433,169 +604,6 @@ if __name__ == &apos;__main__&apos;:
 
 complete -F _py_completion -o default manage
 </code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/26/使用python构建轻型博客系统1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Panda-pan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pandapan0021">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/26/使用python构建轻型博客系统1/" itemprop="url">
-                  使用python构建轻型博客系统1
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-26T04:52:07-04:00">
-                2017-04-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="分解："><a href="#分解：" class="headerlink" title="分解："></a>分解：</h1><p>博客系统主要有三个部分组成</p>
-<pre>
-+----------+        +------------+    +---------+
-|  写作    |        |  页面生成  |    |  部署   |
-+----------+        +------------+    +---------+
-     |                    |                |
-  标记语言             页面主题         github/
-     |                    |              vps
-  解析器               模板系统
-</pre>
-
-<p>现在大多数的标记语言使用的是markdown，虽然简单强大，但是对于python程序员来说最<br>熟悉的还是reStructuredText。RST已经成了python的准官方语言。所以我们使用RST作为后端<br>的写作语言。</p>
-<p>模板系统我们选用jinja2</p>
-<p>部署到github使用GitPython，vps通过ftplib使用ftp协议进行传输</p>
-<h2 id="reStructuredText"><a href="#reStructuredText" class="headerlink" title="reStructuredText"></a>reStructuredText</h2><p>最好的RST解析器当然是<a href="https://www.python.org/dev/peps/pep-0258/" target="_blank" rel="external">docutils</a></p>
-<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>查询配置中设置的主题文件夹，将此文件夹作为模板系统的主工作目录，在通过模板生成<br>页面文件写入待部署文件夹之后将静态文件拷贝到待部署文件夹。</p>
-<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>对于github直接将仓库push即可<br>对于vps则删除所有远端文件后，将本地文件全部上传。</p>
-<h1 id="实现："><a href="#实现：" class="headerlink" title="实现："></a>实现：</h1><h2 id="RST2html"><a href="#RST2html" class="headerlink" title="RST2html"></a>RST2html</h2><h3 id="jinja2文件结构"><a href="#jinja2文件结构" class="headerlink" title="jinja2文件结构"></a>jinja2文件结构</h3><pre>
- root/---+--------index.html
-         +--------article.html 
-         |                 
-         |
-         +-------partials/ -----+------header.html
-                                +------sidebar.html
-                                +------footer.html
-</pre>
-
-<p>index:</p>
-<pre><code>{% extend "layout.html" %}
-{% include "header.html" %}
-{% for article in articles %}
-		  <p>article</p>
-		{% endfor %}
-{% include "sidebar.html" %}
-{% include &quot;footer.html&quot;}
-</code></pre><h3 id="目标结构"><a href="#目标结构" class="headerlink" title="目标结构"></a>目标结构</h3><pre>
-/ +---------index.html
-  +--------+-artilces/ +----index.html
-                       +----2017/ +---------index.html
-                       |          +---------1/ -+----index.html
-                       |          |             +----(articles)
-                       |          +---------2/ -....
-                       |          +---------....
-                       +----2016/ +.....
-</pre>
-
-
           
         
       
