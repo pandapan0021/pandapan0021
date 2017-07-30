@@ -247,6 +247,176 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/30/Import-hook/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panda-pan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pandapan0021">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/30/Import-hook/" itemprop="url">
+                  Import-hook
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-30T13:53:47-04:00">
+                2017-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://www.python.org/dev/peps/pep-0302/" target="_blank" rel="external">PEP302</a></p>
+<p>正如PEP302中所说，在没有导入钩子机制之前，只能通过重写<strong>import</strong>函数的方法来个性化导入行为。<br>而重写<strong>import</strong>会遇到很多的问题。首当其冲的两个问题就是：</p>
+<ol>
+<li>需要从头实现一个完整的导入系统，或在代码中调用原始的<strong>import</strong>函数。</li>
+<li>即使是一些已经在sys.modules中的模块也会调用<strong>import</strong>。</li>
+</ol>
+<p>还有当希望用c来拓展导入系统时问题就更多了。</p>
+<h2 id="The-Importer-Protocol"><a href="#The-Importer-Protocol" class="headerlink" title="The Importer Protocol"></a>The Importer Protocol</h2><p>当读入导入语句之后，解释器在内置命名空间中查看<strong>import</strong>函数。<strong>import</strong>函数将通过四个参数被<br>调用，其中包含将要导入的模块名，和当前全局命名空间的引用。</p>
+<p>内置<strong>import</strong>函数紧接着查看当前模块是一个包还是包中的子模块。如果是在包内，它首先做对于当前<br>包的相对导入操作，比如，如果在包’spam’中’import eggs’，将首先查找’spam.eggs’模块名。如果查找<br>失败，将继续做绝对导入–查找名为eggs的模块。</p>
+<p>深入此机制，点分隔名的导入依靠它的构成而分开。对于’import spam.ham’，首先’import spam’执行，<br>仅当它成功之时，’ham’才作为’spam’子模块导入。</p>
+<p>导入器协议既作用在此分开导入的层面上。当导入器收到一个’spam.ham’的请求，且’spam’已经导入的<br>时间点上。</p>
+<p>导入器协议促发两个对象，分别是 finder、loader。查找器对象有一个方法：</p>
+<pre><code>finder.find_module(fullname, path=None)
+</code></pre><p>此方法将用模块的完整名称作为参数调用。如果查找器被安装在sys.meta_path中，它收到的第二个参数<br>对于不同模块具有不同的值，（如果是顶层模块则为None，子模块或子包为package.<strong>path</strong>）。当模<br>块找到时此方法必须返回一个载入器，未找到则返回None。如产生异常则向上传递给调用者，终止导入。</p>
+<p>载入器有一个方法：</p>
+<pre><code>loader.load_module(fullname)
+</code></pre><p>此方法返回导入的模块或者抛出异常。</p>
+<p>在很多情况下，查找器和载入器可以是同一个对象（finder.find_module()返回self）。</p>
+<p>两个方法中的fullname参数是模块的全名，如’spam.eggs.ham’。如上所述，当finder.find_module(‘spam.eggs.ham’)<br>被调用，且’spam.eggs’已经导入并加入到sys.modules中。但是，在实际导入时find_module()方法并不是总会被调用<br>分析导入依赖的工具不真正导入模块，所以查找器不必需要父包已经在sys.modules中。</p>
+<p>load_module()方法有几个职责必须在执行任意代码之前完成。</p>
+<ol>
+<li>如果sys.modules中已经存在一个名为fullname的对象，载入器必须使用已经存在的模块。如不存在则<br>创建新对象，并加入sys.modules中。</li>
+</ol>
+<blockquote>
+<p>在载入器执行模块代码之前，模块必须已经加入到sys.modules中。因为模块可能导入自己本身，提前加入<br>sys.modules中可以防止递归。</p>
+</blockquote>
+<p>当载入失败时，载入器移除加入到sys.modules中的模块。</p>
+<ol>
+<li><p><strong>file</strong>属性必须设定。</p>
+</li>
+<li><p><strong>name</strong>属性必须设定。</p>
+</li>
+<li><p>如果是包，<strong>path</strong>必须设定。</p>
+</li>
+<li><p><strong>loader</strong> 属性必须设定为载入器。</p>
+</li>
+<li><p><strong>package</strong>属性必须设定。</p>
+</li>
+</ol>
+<p>如果模块是Python模块，载入器必须在模块的全局命名空间中执行模块的代码。（module<strong>dict</strong>）。</p>
+<h2 id="Registering-Hooks"><a href="#Registering-Hooks" class="headerlink" title="Registering Hooks"></a>Registering Hooks</h2><p>有两种类型的导入钩子：Meta hooks和Path hooks。Meta hooks在导入的开始阶段调用，在任何导入<br>程序执行之前。简单把查找器对象加入到sys.meta_path中就注册了一个meta hook。</p>
+<p>Path hooks作为sys.path程序的一部分被调用，当相关路径被读入的时刻。将一个载入器工厂函数<br>加入sys.path_hooks中就注册了一个path hook。</p>
+<p>sys.path_hooks是一个可调用对象列表，它顺序测试来决定它是否能处理给定的路径。可调用对象<br>使用路径元素为参数调用。如成功调用返回一个导入器对象，否则抛出ImportError异常。</p>
+<blockquote>
+<p>如果对于特定的sys.path入口返回了导入器对象，内置导入机制将不会触发来处理此入口，即使导入<br>器对象稍后失败了，也不会触发。</p>
+</blockquote>
+<p>可调用对象是实现import hook的类，因此该类的<strong>init</strong>()方法被调用。</p>
+<p>path hook的结果将缓存在sys.path_importer_cache中，该缓存是一个字典。</p>
+<h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><p><a href="https://thehackerguidetopython.com/" target="_blank" rel="external">THE HACKER’S GUIDE TO PYTHON</a>中作者展示了使用导入钩子<br>的场景。</p>
+<p>在python源代码中通过自定义的导入期导入Hy源代码文件（.hy文件）。</p>
+<blockquote>
+<p>Hy是Python上的Lisp实现。<br>Hy将把源代码解析并编译成Python抽象语法树。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/18/python-ast/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1915,175 +2085,6 @@ def getMinSteps(n):
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/11/sqlalchemy源码之Query/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Panda-pan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pandapan0021">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/11/sqlalchemy源码之Query/" itemprop="url">
-                  sqlalchemy源码之Query
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-11T23:50:52-05:00">
-                2016-11-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>根据官方文档，Query类在平时应用中用户并不直接接触， 而是由session通过调用session.query()方法调用。<br>一、sqlalchemy.orm.session.py<br>在session的__init__方法中，可以看到参数query_cls的默认值为Query类。<br>接着在函数体中将session._query_cls赋值为query_cls,正常情况下都是使用默认值，及session._query_cls就是Query类。<br>session.query的定义为：</p>
-<pre><code>def query(self, *entities, **kwargs):
-    return self._query_cls(entities, self, **kwargs)
-</code></pre><p>可以看出session.query()的使命就是用他的参数得到一个Query的实例。</p>
-<p>一般的用法是<br>        session.query(MappedClass).filter……</p>
-<p>可以看到传给实例化Query所用的参数就是用户定义的models。<br>那Query对这个MappedClass是怎么处理的呢</p>
-<p>二、sqlalchemy.orm.query.py<br>Query.__init__中将self.session设置为初始化时的第二个参数就是之前已经实例化的session。之后处理传入的MappedClass参数。<br>对MappedClass参数的处理一直嵌套调用函数下面去掉函数调用整理成顺序处理</p>
-<pre><code>self._entities=[]
-self._primary_entity = None
-self.has_mapper_entities = False
-for ent in util.to_list(entities):
-    _QueryEntity(self, ent)
-</code></pre><p><em>QueryEntity做了什么：<br>这是一个很神奇的类，会根据提供的初始化参数来改变自己。<br>通过\</em>_new__方法使得自身在_MapperEntity，_Bundleentity, _ColumnEntity之间切换。通过源码可以看出正常提供MappedClass参数之后实例化的是_MapperEntity这个类。之后就是实例化_MapperEntity的过程：</p>
-<pre><code>def __init__(self, query, entity):
-    if not query._primay_entity:
-        query._primary_entity = self
-    query._entities.append(self)
-    query._has_mapper_entities = True
-    self.entities = [entity]
-    self.expr = entity
-    ......
-</code></pre><p>这时候_primary_entity还是None,所以设置_primary_entity为_MapperEntity的实例，接着在_entities列表中添加相同的_MapperEntity实例。可以看到当传入多个MappedClass时候，Query._primary_entity为传入的第一个Class实例化的_MapperEntity，Query._entities中存储的是所有的Class实例化的_MapperEntity。</p>
-<p>设置完Query._primay_entity和Query._entities之后回到Query的实例化过程。</p>
-<p>（Query类中）接着调用</p>
-<pre><code>self._set_entity_selectables(self._entities)
-</code></pre><p>主要代码:</p>
-<pre><code>for ent in entities:
-    if entity not in d:
-        ext_info = inspect(entity)
-        if not ext_info.is_aliased_class and \ 
-                ext_info.mapper.with_polymorphic:
-            if ext_info.mapper.mapped_table not in \
-                    self._polymorphic_adapters:
-                self._mapper_loads_polymorphically_with(
-                    ext_info.mapper,
-                    sql_utill.ColumnAdapter(
-                        ext_info.selectable,
-                        ext_info.mapper._equivalent_columns
-                    )
-                )
-            aliased_adapter = None
-        elif ext_info.is_aliased_class:
-            aliased_adapter = ext_info._adapter
-        else:
-            aliased_adapter = None
-
-        d[entity] = (
-            ext_info,
-            aliased_adapter
-        )
-    ent.setup_entity(*d[entity])
-</code></pre><p>传入的参数为_MapperEntity实例的列表，for循环对每一个列表中的元素操作。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2133,7 +2134,7 @@ for ent in util.to_list(entities):
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
