@@ -325,19 +325,19 @@
         
           
             <p><a href="https://www.python.org/dev/peps/pep-0302/" target="_blank" rel="external">《PEP302》</a></p>
-<p>正如PEP302中所说，在没有导入钩子机制之前，只能通过重写<strong>import</strong>函数的方法来个性化导入行为。<br>而重写<strong>import</strong>会遇到很多的问题。首当其冲的两个问题就是：</p>
+<p>正如PEP302中所说，在没有导入钩子机制之前，只能通过重写__import__函数的方法来个性化导入行为。<br>而重写__import__会遇到很多的问题。首当其冲的两个问题就是：</p>
 <ol>
-<li>需要从头实现一个完整的导入系统，或在代码中调用原始的<strong>import</strong>函数。</li>
-<li>即使是一些已经在sys.modules中的模块也会调用<strong>import</strong>。</li>
+<li>需要从头实现一个完整的导入系统，或在代码中调用原始的__import__函数。</li>
+<li>即使是一些已经在sys.modules中的模块也会调用__import__。</li>
 </ol>
 <p>还有当希望用c来拓展导入系统时问题就更多了。</p>
-<h2 id="The-Importer-Protocol"><a href="#The-Importer-Protocol" class="headerlink" title="The Importer Protocol"></a>The Importer Protocol</h2><p>当读入导入语句之后，解释器在内置命名空间中查看<strong>import</strong>函数。<strong>import</strong>函数将通过四个参数被<br>调用，其中包含将要导入的模块名，和当前全局命名空间的引用。</p>
-<p>内置<strong>import</strong>函数紧接着查看当前模块是一个包还是包中的子模块。如果是在包内，它首先做对于当前<br>包的相对导入操作，比如，如果在包’spam’中’import eggs’，将首先查找’spam.eggs’模块名。如果查找<br>失败，将继续做绝对导入–查找名为eggs的模块。</p>
+<h2 id="The-Importer-Protocol"><a href="#The-Importer-Protocol" class="headerlink" title="The Importer Protocol"></a>The Importer Protocol</h2><p>当读入导入语句之后，解释器在内置命名空间中查看__import__函数。__import__函数将通过四个参数被<br>调用，其中包含将要导入的模块名，和当前全局命名空间的引用。</p>
+<p>内置__import__函数紧接着查看当前模块是一个包还是包中的子模块。如果是在包内，它首先做对于当前<br>包的相对导入操作，比如，如果在包’spam’中’import eggs’，将首先查找’spam.eggs’模块名。如果查找<br>失败，将继续做绝对导入–查找名为eggs的模块。</p>
 <p>深入此机制，点分隔名的导入依靠它的构成而分开。对于’import spam.ham’，首先’import spam’执行，<br>仅当它成功之时，’ham’才作为’spam’子模块导入。</p>
 <p>导入器协议既作用在此分开导入的层面上。当导入器收到一个’spam.ham’的请求，且’spam’已经导入的<br>时间点上。</p>
 <p>导入器协议促发两个对象，分别是 finder、loader。查找器对象有一个方法：</p>
 <pre><code>finder.find_module(fullname, path=None)
-</code></pre><p>此方法将用模块的完整名称作为参数调用。如果查找器被安装在sys.meta_path中，它收到的第二个参数<br>对于不同模块具有不同的值，（如果是顶层模块则为None，子模块或子包为package.<strong>path</strong>）。当模<br>块找到时此方法必须返回一个载入器，未找到则返回None。如产生异常则向上传递给调用者，终止导入。</p>
+</code></pre><p>此方法将用模块的完整名称作为参数调用。如果查找器被安装在sys.meta<em>path中，它收到的第二个参数<br>对于不同模块具有不同的值，（如果是顶层模块则为None，子模块或子包为package.\</em>_path__）。当模<br>块找到时此方法必须返回一个载入器，未找到则返回None。如产生异常则向上传递给调用者，终止导入。</p>
 <p>载入器有一个方法：</p>
 <pre><code>loader.load_module(fullname)
 </code></pre><p>此方法返回导入的模块或者抛出异常。</p>
@@ -350,25 +350,25 @@
 <p>在载入器执行模块代码之前，模块必须已经加入到sys.modules中。因为模块可能导入自己本身，提前加入<br>sys.modules中可以防止递归。<br>当载入失败时，载入器移除加入到sys.modules中的模块。</p>
 </blockquote>
 </li>
-<li><p><strong>file</strong>属性必须设定。</p>
+<li><p>__file__属性必须设定。</p>
 </li>
-<li><p><strong>name</strong>属性必须设定。</p>
+<li><p>__name__属性必须设定。</p>
 </li>
-<li><p>如果是包，<strong>path</strong>必须设定。</p>
+<li><p>如果是包，__path__必须设定。</p>
 </li>
-<li><p><strong>loader</strong> 属性必须设定为载入器。</p>
+<li><p>__loader__ 属性必须设定为载入器。</p>
 </li>
-<li><p><strong>package</strong>属性必须设定。</p>
+<li><p>__package__属性必须设定。</p>
 </li>
 </ol>
-<p>如果模块是Python模块，载入器必须在模块的全局命名空间中执行模块的代码。（module<strong>dict</strong>）。</p>
+<p>如果模块是Python模块，载入器必须在模块的全局命名空间中执行模块的代码。（module__dict__）。</p>
 <h2 id="Registering-Hooks"><a href="#Registering-Hooks" class="headerlink" title="Registering Hooks"></a>Registering Hooks</h2><p>有两种类型的导入钩子：Meta hooks和Path hooks。Meta hooks在导入的开始阶段调用，在任何导入<br>程序执行之前。简单把查找器对象加入到sys.meta_path中就注册了一个meta hook。</p>
 <p>Path hooks作为sys.path程序的一部分被调用，当相关路径被读入的时刻。将一个载入器工厂函数<br>加入sys.path_hooks中就注册了一个path hook。</p>
 <p>sys.path_hooks是一个可调用对象列表，它顺序测试来决定它是否能处理给定的路径。可调用对象<br>使用路径元素为参数调用。如成功调用返回一个导入器对象，否则抛出ImportError异常。</p>
 <blockquote>
 <p>如果对于特定的sys.path入口返回了导入器对象，内置导入机制将不会触发来处理此入口，即使导入<br>器对象稍后失败了，也不会触发。</p>
 </blockquote>
-<p>可调用对象是实现import hook的类，因此该类的<strong>init</strong>()方法被调用。</p>
+<p>可调用对象是实现import hook的类，因此该类的__init__()方法被调用。</p>
 <p>path hook的结果将缓存在sys.path_importer_cache中，该缓存是一个字典。</p>
 <h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><p><a href="https://thehackerguidetopython.com/" target="_blank" rel="external">《THE HACKER’S GUIDE TO PYTHON》</a>中作者展示了使用导入钩子<br>的场景。</p>
 <p>在python源代码中通过自定义的导入期导入Hy源代码文件（.hy文件）。</p>
