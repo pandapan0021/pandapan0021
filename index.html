@@ -345,13 +345,11 @@
 <p>两个方法中的fullname参数是模块的全名，如’spam.eggs.ham’。如上所述，当finder.find_module(‘spam.eggs.ham’)<br>被调用，且’spam.eggs’已经导入并加入到sys.modules中。但是，在实际导入时find_module()方法并不是总会被调用<br>分析导入依赖的工具不真正导入模块，所以查找器不必需要父包已经在sys.modules中。</p>
 <p>load_module()方法有几个职责必须在执行任意代码之前完成。</p>
 <ol>
-<li>如果sys.modules中已经存在一个名为fullname的对象，载入器必须使用已经存在的模块。如不存在则<br>创建新对象，并加入sys.modules中。</li>
-</ol>
+<li><p>如果sys.modules中已经存在一个名为fullname的对象，载入器必须使用已经存在的模块。如不存在则<br>创建新对象，并加入sys.modules中。</p>
 <blockquote>
-<p>在载入器执行模块代码之前，模块必须已经加入到sys.modules中。因为模块可能导入自己本身，提前加入<br>sys.modules中可以防止递归。</p>
+<p>在载入器执行模块代码之前，模块必须已经加入到sys.modules中。因为模块可能导入自己本身，提前加入<br>sys.modules中可以防止递归。<br>当载入失败时，载入器移除加入到sys.modules中的模块。</p>
 </blockquote>
-<p>当载入失败时，载入器移除加入到sys.modules中的模块。</p>
-<ol>
+</li>
 <li><p><strong>file</strong>属性必须设定。</p>
 </li>
 <li><p><strong>name</strong>属性必须设定。</p>
