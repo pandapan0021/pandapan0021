@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/08/13/Import-hook2/index.html">
 <meta property="og:site_name" content="Pandapan0021">
 <meta property="og:description" content="flask 中使用场景flask作为轻型框架，依赖大量的外部拓展来提供额外的功能。旧式风格的扩展包的命名方式为flaskext.(somename),新式的包名为flask_(somename)。为了达到兼容的目的flask提供了使用Importer Protocol机制的解决方案。当在flask应用中使用flask.ext.(somename)时，flask可以查找flaskext.(somen">
-<meta property="og:updated_time" content="2017-08-13T13:31:52.325Z">
+<meta property="og:updated_time" content="2017-08-13T13:38:25.433Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Import-hook2">
 <meta name="twitter:description" content="flask 中使用场景flask作为轻型框架，依赖大量的外部拓展来提供额外的功能。旧式风格的扩展包的命名方式为flaskext.(somename),新式的包名为flask_(somename)。为了达到兼容的目的flask提供了使用Importer Protocol机制的解决方案。当在flask应用中使用flask.ext.(somename)时，flask可以查找flaskext.(somen">
@@ -352,7 +352,7 @@ importer.install()
 </code></pre><p>之后我们写一个flask_extension_whatever模块。</p>
 <p>flask_extension_whatever.py</p>
 <pre><code>class WhatEver(object):
-    def __init__(self, app):
+    def __init__(self, app=None):
         if app:
             self.init_app(app)
 

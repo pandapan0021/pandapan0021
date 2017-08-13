@@ -354,7 +354,7 @@ importer.install()
 </code></pre><p>之后我们写一个flask_extension_whatever模块。</p>
 <p>flask_extension_whatever.py</p>
 <pre><code>class WhatEver(object):
-    def __init__(self, app):
+    def __init__(self, app=None):
         if app:
             self.init_app(app)
 
