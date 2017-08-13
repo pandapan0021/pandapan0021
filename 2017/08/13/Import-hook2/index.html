@@ -94,16 +94,16 @@
 
 
 
-<meta name="description" content="flask 中使用场景flask作为轻型框架，依赖大量的外部拓展来提供额外的功能。旧式风格的扩展包的命名方式为flaskext.(somename),新式的包名为flask(somename)。为了达到兼容的目的flask提供了使用Importer Protocol机制的解决方案。当在flask应用中使用flask.ext.(somename)时，flask可以查找flaskext.(somena">
+<meta name="description" content="flask 中使用场景flask作为轻型框架，依赖大量的外部拓展来提供额外的功能。旧式风格的扩展包的命名方式为flaskext.(somename),新式的包名为flask_(somename)。为了达到兼容的目的flask提供了使用Importer Protocol机制的解决方案。当在flask应用中使用flask.ext.(somename)时，flask可以查找flaskext.(somen">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Import-hook2">
 <meta property="og:url" content="http://yoursite.com/2017/08/13/Import-hook2/index.html">
 <meta property="og:site_name" content="Pandapan0021">
-<meta property="og:description" content="flask 中使用场景flask作为轻型框架，依赖大量的外部拓展来提供额外的功能。旧式风格的扩展包的命名方式为flaskext.(somename),新式的包名为flask(somename)。为了达到兼容的目的flask提供了使用Importer Protocol机制的解决方案。当在flask应用中使用flask.ext.(somename)时，flask可以查找flaskext.(somena">
-<meta property="og:updated_time" content="2017-08-13T13:27:46.301Z">
+<meta property="og:description" content="flask 中使用场景flask作为轻型框架，依赖大量的外部拓展来提供额外的功能。旧式风格的扩展包的命名方式为flaskext.(somename),新式的包名为flask_(somename)。为了达到兼容的目的flask提供了使用Importer Protocol机制的解决方案。当在flask应用中使用flask.ext.(somename)时，flask可以查找flaskext.(somen">
+<meta property="og:updated_time" content="2017-08-13T13:31:52.325Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Import-hook2">
-<meta name="twitter:description" content="flask 中使用场景flask作为轻型框架，依赖大量的外部拓展来提供额外的功能。旧式风格的扩展包的命名方式为flaskext.(somename),新式的包名为flask(somename)。为了达到兼容的目的flask提供了使用Importer Protocol机制的解决方案。当在flask应用中使用flask.ext.(somename)时，flask可以查找flaskext.(somena">
+<meta name="twitter:description" content="flask 中使用场景flask作为轻型框架，依赖大量的外部拓展来提供额外的功能。旧式风格的扩展包的命名方式为flaskext.(somename),新式的包名为flask_(somename)。为了达到兼容的目的flask提供了使用Importer Protocol机制的解决方案。当在flask应用中使用flask.ext.(somename)时，flask可以查找flaskext.(somen">
 
 
 
@@ -322,7 +322,7 @@
       
 
       
-        <h1 id="flask-中使用场景"><a href="#flask-中使用场景" class="headerlink" title="flask 中使用场景"></a>flask 中使用场景</h1><p>flask作为轻型框架，依赖大量的外部拓展来提供额外的功能。<br>旧式风格的扩展包的命名方式为flaskext.(somename),新式的包名为flask<em>(somename)。<br>为了达到兼容的目的flask提供了使用Importer Protocol机制的解决方案。<br>当在flask应用中使用flask.ext.(somename)时，flask可以查找flaskext.(somename)与<br>flask</em>(somename)来确定应该导入哪个包。</p>
+        <h1 id="flask-中使用场景"><a href="#flask-中使用场景" class="headerlink" title="flask 中使用场景"></a>flask 中使用场景</h1><p>flask作为轻型框架，依赖大量的外部拓展来提供额外的功能。<br>旧式风格的扩展包的命名方式为flaskext.(somename),新式的包名为flask_(somename)。<br>为了达到兼容的目的flask提供了使用Importer Protocol机制的解决方案。<br>当在flask应用中使用flask.ext.(somename)时，flask可以查找flaskext.(somename)与<br>flask_(somename)来确定应该导入哪个包。</p>
 <p>源代码中的位置为 flask/exthook.py 和 flask/ext/__init__.py</p>
 <h1 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h1><p>从Importer protocol中看出要导入flask.ext.something的时候首先会导入flask.ext包，</p>
 <p>而在flask.ext包中flask首先导入了一个集查找器和载入器于一身的导入器。</p>
@@ -346,8 +346,8 @@ importer.install()
         ....
 
         continue
-</code></pre><p>其中的 self.module<em>choices 为实例化时候传入的[‘flaskext.%s’, ‘flask</em>%s’]。</p>
-<h1 id="hack"><a href="#hack" class="headerlink" title="hack"></a>hack</h1><p>我们修改flask.ext中的源码 在module_choices中增加一个flask<em>extension</em>%s来测试一下<br>效果。</p>
+</code></pre><p>其中的 self.module_choices 为实例化时候传入的[‘flaskext.%s’, ‘flask_%s’]。</p>
+<h1 id="hack"><a href="#hack" class="headerlink" title="hack"></a>hack</h1><p>我们修改flask.ext中的源码 在module_choices中增加一个flask_extension_%s来测试一下<br>效果。</p>
 <pre><code>importer = ExtensionImporter([&apos;flask_%s&apos;, &apos;flaskext.%s&apos;, flask_extension_%s&apos;], __name__)
 </code></pre><p>之后我们写一个flask_extension_whatever模块。</p>
 <p>flask_extension_whatever.py</p>
