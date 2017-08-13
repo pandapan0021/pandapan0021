@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 
 
 
@@ -10,6 +10,13 @@
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
 
 
 
@@ -68,7 +75,7 @@
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
   <meta name="keywords" content="Hexo, NexT" />
@@ -80,7 +87,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
 
 
 
@@ -101,12 +108,13 @@
   var CONFIG = {
     root: '/',
     scheme: 'Muse',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
+    tabs: true,
     motion: true,
     duoshuo: {
       userId: '0',
-      author: 'Panda-pan'
+      author: 'Author'
     },
     algolia: {
       applicationID: '',
@@ -126,11 +134,7 @@
 
 
 
-  <title> Pandapan0021 </title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="">
-
+  <title>Pandapan0021</title>
   
 
 
@@ -140,18 +144,16 @@
 
 
 
+</head>
 
-
-
-
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
 
   
   
     
   
 
-  <div class="container one-collumn sidebar-position-left 
+  <div class="container sidebar-position-left 
    page-home 
  ">
     <div class="headband"></div>
@@ -200,7 +202,7 @@
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
+          <a href="/archives/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
@@ -214,7 +216,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-github"></i> <br />
             
-            Github
+            menu.github
           </a>
         </li>
       
@@ -246,7 +248,173 @@
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/12/jinja2-Template/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panda-pan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pandapan0021">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/12/jinja2-Template/" itemprop="url">jinja2-模板对象</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-12T11:51:28-05:00">
+                2017-02-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h6 id="Template"><a href="#Template" class="headerlink" title="Template"></a>Template</h6><h6 id="1-Tempalte类为核心模板对象。用来表示编译过的模板文件并用来渲染该模板文件。"><a href="#1-Tempalte类为核心模板对象。用来表示编译过的模板文件并用来渲染该模板文件。" class="headerlink" title="(1) Tempalte类为核心模板对象。用来表示编译过的模板文件并用来渲染该模板文件。"></a>(1) Tempalte类为核心模板对象。用来表示编译过的模板文件并用来渲染该模板文件。</h6><h6 id="2-通常模板对象是从Enviroment-类生成的，但Template-类提供了构造器来生成模板对象。"><a href="#2-通常模板对象是从Enviroment-类生成的，但Template-类提供了构造器来生成模板对象。" class="headerlink" title="(2) 通常模板对象是从Enviroment 类生成的，但Template 类提供了构造器来生成模板对象。"></a>(2) 通常模板对象是从Enviroment 类生成的，但Template 类提供了构造器来生成模板对象。</h6><h6 id="3-从Template类直接生成的模板对象包含一个指向临时环境的”environment”属性，所有由Template类直接生成的模板对象共享这个临时环境。"><a href="#3-从Template类直接生成的模板对象包含一个指向临时环境的”environment”属性，所有由Template类直接生成的模板对象共享这个临时环境。" class="headerlink" title="(3) 从Template类直接生成的模板对象包含一个指向临时环境的”environment”属性，所有由Template类直接生成的模板对象共享这个临时环境。"></a>(3) 从Template类直接生成的模板对象包含一个指向临时环境的”environment”属性，所有由Template类直接生成的模板对象共享这个临时环境。</h6><h6 id="4-new"><a href="#4-new" class="headerlink" title="(4)__new__"></a>(4)__new__</h6><p>args:</p>
+<ol>
+<li>source: 模板字符串。</li>
+<li>block_start_string(默认为 { % )</li>
+<li>block_end_string(默认为 % } )</li>
+<li>variable_start_string(默认为 { { )</li>
+<li>variable_end_string(默认为 } } )</li>
+<li>comment_start_string(默认为 { # )</li>
+<li>comment_end_string(默认为 # } )</li>
+<li>line_statement_prefix(None)</li>
+<li>line_comment_prefix(None)</li>
+<li>trim_blocks(False)</li>
+<li>lstrip_blocks(False)</li>
+<li>newline_sequence(默认为 \n )</li>
+<li>keep_trailing_newline(False)</li>
+<li>extensions</li>
+<li>optimized</li>
+<li>undefine</li>
+<li>finalize</li>
+<li>autoescape(此处默认为False，所以从字符串直接构造的模板对象不会自动转义，但是Environment生成的模板对象默认自动转义)</li>
+<li>enable_async(False)</li>
+</ol>
+<p>函数体：<br>通过get_spontaneous_environment生成环境变量env，再通过env.from_string函数生成模板对象。</p>
+<p>######(5)from_code<br>此函数从编译过的模板代码和globals参数创建模板对象，供loaders和environment调用。</p>
+<p>######(6)from_module_dict<br>此函数通过模块构造模板对象，供module loadder调用</p>
+<p>######(7)_from_namespace<br>由from_code与from_module_dict函数调用真正创建模板对象的函数</p>
+<p>######(8)render/render_async<br>渲染函数，render_async需要支持await特性的python版本，目前还没有实现。</p>
+<p>######(9)stream<br>同generate但是返回TemplateStream的实例</p>
+<p>######(10)generate/generate_async<br>对于大规模的模板，此函数可以一条语句接着一条语句渲染并一段一段的生成。异步方法同样需要await支持(未实现)</p>
+<pre><code>从几个渲染函数看出，渲染的核心功能由Template.new_context函数与Template.root_render_func函数提供
+</code></pre><p>######(11)new_context<br>为模板对象创建上下文环境，为Context类的实例。全局变量默认加入此上下文。</p>
+<p>######(12)make_module/make_module_async<br>默认参数下和module方法一致。</p>
+<p>######(13)module 调用 _get_default_module 返回self._module<br>由make_module 默认参数构造。</p>
+<p>######(14)get_corresponding_lineno 返回行号</p>
+<p>######(15)is_up_to_date 检测是否需要更新模板</p>
+<p>######(16)debug_info 返回debug信息</p>
+<p>####flask调用jinja2过程</p>
+<p>######flask/templating.py<br>render_template函数调用_render渲染模板<br>首先，从flask的本地应用上下文栈中取出应用上下文ctx。更新模板环境。<br>ctx.app.jinja_env.get_or_select_template生成模板对象。</p>
+<p>######flask/app.py<br>jinja_env调用create_jinja_environment<br>create_jinja_environment首先生成jinja配置选项，通过jinja_environment生成jinja环境，jinja_environment就是flask/templating.py/Evnironment。</p>
+<p>######flask/templating.py<br>通过jinja2/environment.py/Environment构造环境</p>
+<p>ctx.app.jinja_env就是一个jinja2/environment.py/Environment实例。</p>
+<p>######jinja2/environment.py<br>Environment.get_or_select_template<br>如果参数为字符串调用get_template\，否则调用select_template</p>
+<p>Environment.select_template<br>通过_load_template生成Template对象</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/11/sqlalchemy源码之Query/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -265,16 +433,8 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2016/11/11/sqlalchemy源码之Query/" itemprop="url">
-                  sqlalchemy源码之Query
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2016/11/11/sqlalchemy源码之Query/" itemprop="url">sqlalchemy源码之Query</a></h1>
         
 
         <div class="post-meta">
@@ -315,7 +475,9 @@
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -381,15 +543,15 @@ for ent in util.to_list(entities):
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
+    
 
     <footer class="post-footer">
       
@@ -403,6 +565,10 @@ for ent in util.to_list(entities):
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -415,7 +581,11 @@ for ent in util.to_list(entities):
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/07/flask-redirect相关/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -434,16 +604,8 @@ for ent in util.to_list(entities):
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2016/11/07/flask-redirect相关/" itemprop="url">
-                  flask-redirect相关
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2016/11/07/flask-redirect相关/" itemprop="url">flask-redirect相关</a></h1>
         
 
         <div class="post-meta">
@@ -484,7 +646,9 @@ for ent in util.to_list(entities):
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -541,15 +705,15 @@ for ent in util.to_list(entities):
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
+    
 
     <footer class="post-footer">
       
@@ -563,6 +727,10 @@ for ent in util.to_list(entities):
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -575,7 +743,11 @@ for ent in util.to_list(entities):
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/28/redis-py/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -594,16 +766,8 @@ for ent in util.to_list(entities):
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2016/10/28/redis-py/" itemprop="url">
-                  redis-py
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2016/10/28/redis-py/" itemprop="url">redis-py</a></h1>
         
 
         <div class="post-meta">
@@ -644,7 +808,9 @@ for ent in util.to_list(entities):
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -658,15 +824,15 @@ for ent in util.to_list(entities):
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
+    
 
     <footer class="post-footer">
       
@@ -680,6 +846,10 @@ for ent in util.to_list(entities):
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -692,7 +862,11 @@ for ent in util.to_list(entities):
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/28/redis命令/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -711,16 +885,8 @@ for ent in util.to_list(entities):
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2016/10/28/redis命令/" itemprop="url">
-                  redis命令
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2016/10/28/redis命令/" itemprop="url">redis命令</a></h1>
         
 
         <div class="post-meta">
@@ -761,7 +927,9 @@ for ent in util.to_list(entities):
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -823,15 +991,15 @@ pfcount key
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
+    
 
     <footer class="post-footer">
       
@@ -845,6 +1013,10 @@ pfcount key
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -857,7 +1029,11 @@ pfcount key
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/26/flask源码/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -876,16 +1052,8 @@ pfcount key
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2016/10/26/flask源码/" itemprop="url">
-                  flask源码
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2016/10/26/flask源码/" itemprop="url">flask源码</a></h1>
         
 
         <div class="post-meta">
@@ -926,7 +1094,9 @@ pfcount key
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1035,15 +1205,15 @@ def index():
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
+    
 
     <footer class="post-footer">
       
@@ -1057,6 +1227,10 @@ def index():
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -1069,7 +1243,11 @@ def index():
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/26/flask-wsgi/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1088,16 +1266,8 @@ def index():
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2016/10/26/flask-wsgi/" itemprop="url">
-                  flask源码--理解wsgi
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2016/10/26/flask-wsgi/" itemprop="url">flask源码--理解wsgi</a></h1>
         
 
         <div class="post-meta">
@@ -1138,7 +1308,9 @@ def index():
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1218,15 +1390,15 @@ application调用start_response传入status和headers
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
+    
 
     <footer class="post-footer">
       
@@ -1240,6 +1412,10 @@ application调用start_response传入status和headers
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -1252,7 +1428,7 @@ application调用start_response传入status和headers
   </nav>
 
 
-          
+
           </div>
           
 
@@ -1272,6 +1448,7 @@ application调用start_response传入status和headers
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
     <div class="sidebar-inner">
 
       
@@ -1292,8 +1469,8 @@ application调用start_response传入status和headers
 
           
             <div class="site-state-item site-state-posts">
-              <a href="/archives">
-                <span class="site-state-item-count">16</span>
+              <a href="/archives/">
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
@@ -1306,7 +1483,7 @@ application调用start_response传入status和headers
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">Tags</span>
               
             </div>
@@ -1370,6 +1547,12 @@ application调用start_response传入status和headers
 
         
 
+
+
+
+
+
+
         
       </div>
     </footer>
@@ -1380,7 +1563,7 @@ application调用start_response传入status和headers
         
       </div>
     
-    
+
   </div>
 
   
@@ -1400,6 +1583,14 @@ application调用start_response传入status和headers
 
 
   
+
+
+
+
+
+
+
+
 
 
 
@@ -1426,26 +1617,29 @@ application调用start_response传入status和headers
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
-
-
-
-  
-  
-
-  
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
 
 
 
   
+  
 
+  
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
 
 
   
@@ -1471,21 +1665,22 @@ application调用start_response传入status和headers
 
 
 
-  
-
-
-
-  
-  
 
   
 
-  
+
+
+
 
   
 
   
 
+  
+
+  
+
+  
 
   
 

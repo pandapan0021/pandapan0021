@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 
 
 
@@ -10,6 +10,13 @@
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
 
 
 
@@ -68,7 +75,7 @@
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
   <meta name="keywords" content="python reStructuredText," />
@@ -80,7 +87,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
 
 
 
@@ -111,12 +118,13 @@ class-docstringsummarize behaviorpublic methodsinstance variables">
   var CONFIG = {
     root: '/',
     scheme: 'Muse',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
+    tabs: true,
     motion: true,
     duoshuo: {
       userId: '0',
-      author: 'Panda-pan'
+      author: 'Author'
     },
     algolia: {
       applicationID: '',
@@ -136,11 +144,7 @@ class-docstringsummarize behaviorpublic methodsinstance variables">
 
 
 
-  <title> Python-DOC | Pandapan0021 </title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="">
-
+  <title>Python-DOC | Pandapan0021</title>
   
 
 
@@ -150,18 +154,16 @@ class-docstringsummarize behaviorpublic methodsinstance variables">
 
 
 
+</head>
 
-
-
-
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
 
   
   
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -208,7 +210,7 @@ class-docstringsummarize behaviorpublic methodsinstance variables">
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
+          <a href="/archives/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
@@ -222,7 +224,7 @@ class-docstringsummarize behaviorpublic methodsinstance variables">
             
               <i class="menu-item-icon fa fa-fw fa-github"></i> <br />
             
-            Github
+            menu.github
           </a>
         </li>
       
@@ -254,7 +256,11 @@ class-docstringsummarize behaviorpublic methodsinstance variables">
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/24/Python-DOC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -272,14 +278,7 @@ class-docstringsummarize behaviorpublic methodsinstance variables">
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Python-DOC
-              
-            
-          </h1>
+          <h1 class="post-title" itemprop="name headline">Python-DOC</h1>
         
 
         <div class="post-meta">
@@ -320,7 +319,9 @@ class-docstringsummarize behaviorpublic methodsinstance variables">
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -362,21 +363,15 @@ This is a Subsection Title
 
       
     </div>
+    
+    
+    
 
-    <div>
-      
-        
+    
 
-      
-    </div>
+    
 
-    <div>
-      
-        
-
-      
-    </div>
-
+    
 
     <footer class="post-footer">
       
@@ -388,7 +383,7 @@ This is a Subsection Title
       
 
       
-        
+      
       
 
       
@@ -416,6 +411,10 @@ This is a Subsection Title
       
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -425,7 +424,7 @@ This is a Subsection Title
     </div>
   </div>
 
-          
+
           </div>
           
 
@@ -449,6 +448,7 @@ This is a Subsection Title
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
     <div class="sidebar-inner">
 
       
@@ -478,8 +478,8 @@ This is a Subsection Title
 
           
             <div class="site-state-item site-state-posts">
-              <a href="/archives">
-                <span class="site-state-item-count">16</span>
+              <a href="/archives/">
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
@@ -492,7 +492,7 @@ This is a Subsection Title
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">Tags</span>
               
             </div>
@@ -572,6 +572,12 @@ This is a Subsection Title
 
         
 
+
+
+
+
+
+
         
       </div>
     </footer>
@@ -582,7 +588,7 @@ This is a Subsection Title
         
       </div>
     
-    
+
   </div>
 
   
@@ -602,6 +608,14 @@ This is a Subsection Title
 
 
   
+
+
+
+
+
+
+
+
 
 
 
@@ -628,30 +642,29 @@ This is a Subsection Title
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
 
 
 
   
+  
 
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
 
 
   
 
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
 
 
   
@@ -677,21 +690,22 @@ This is a Subsection Title
 
 
 
-  
-
-
-
-  
-  
 
   
 
-  
+
+
+
 
   
 
   
 
+  
+
+  
+
+  
 
   
 

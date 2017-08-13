@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python flask import-hook," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="flask 中使用场景flask作为轻型框架，依赖大量的外部拓展来提供额外的功能。旧式风格的扩展包的命名方式为flaskext.(somename),新式的包名为flask(somename)。为了达到兼容的目的flask提供了使用Importer Protocol机制的解决方案。当在flask应用中使用flask.ext.(somename)时，flask可以查找flaskext.(somena">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Import-hook2">
+<meta property="og:url" content="http://yoursite.com/2017/08/13/Import-hook2/index.html">
+<meta property="og:site_name" content="Pandapan0021">
+<meta property="og:description" content="flask 中使用场景flask作为轻型框架，依赖大量的外部拓展来提供额外的功能。旧式风格的扩展包的命名方式为flaskext.(somename),新式的包名为flask(somename)。为了达到兼容的目的flask提供了使用Importer Protocol机制的解决方案。当在flask应用中使用flask.ext.(somename)时，flask可以查找flaskext.(somena">
+<meta property="og:updated_time" content="2017-08-13T13:27:46.301Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Import-hook2">
+<meta name="twitter:description" content="flask 中使用场景flask作为轻型框架，依赖大量的外部拓展来提供额外的功能。旧式风格的扩展包的命名方式为flaskext.(somename),新式的包名为flask(somename)。为了达到兼容的目的flask提供了使用Importer Protocol机制的解决方案。当在flask应用中使用flask.ext.(somename)时，flask可以查找flaskext.(somena">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/13/Import-hook2/"/>
+
+
+
+
+
+  <title>Import-hook2 | Pandapan0021</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pandapan0021</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-github">
+          <a href="https://github.com/pandapan0021" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-github"></i> <br />
+            
+            menu.github
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/13/Import-hook2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panda-pan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pandapan0021">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Import-hook2</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-13T05:12:41-04:00">
+                2017-08-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="flask-中使用场景"><a href="#flask-中使用场景" class="headerlink" title="flask 中使用场景"></a>flask 中使用场景</h1><p>flask作为轻型框架，依赖大量的外部拓展来提供额外的功能。<br>旧式风格的扩展包的命名方式为flaskext.(somename),新式的包名为flask<em>(somename)。<br>为了达到兼容的目的flask提供了使用Importer Protocol机制的解决方案。<br>当在flask应用中使用flask.ext.(somename)时，flask可以查找flaskext.(somename)与<br>flask</em>(somename)来确定应该导入哪个包。</p>
+<p>源代码中的位置为 flask/exthook.py 和 flask/ext/__init__.py</p>
+<h1 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h1><p>从Importer protocol中看出要导入flask.ext.something的时候首先会导入flask.ext包，</p>
+<p>而在flask.ext包中flask首先导入了一个集查找器和载入器于一身的导入器。</p>
+<pre><code>from ..exthook import ExtensionImporter
+</code></pre><p>之后实例化并安装该导入器。</p>
+<pre><code>importer = ExtensionImporter([&apos;flask_%s&apos;, &apos;flaskext.%s&apos;], \_\_name\_\_)
+importer.install()
+</code></pre><p>之后就是执行在flask.ext包中导入子模块的过程了，</p>
+<p>根据Importer protocol，首先调用find_module函数。</p>
+<pre><code>def find_module(self, fullname, path=None):
+    if fullname.startswith(self.prefix) and \
+       fullname != &apos;flask.ext.ExtDeprecationWarning&apos;:
+        return self
+</code></pre><p>可见find_module并没有做什么事情，只是在确认导入的全名以 flask.ext为前缀时，<br>将importer作为载入器返回，等待调用其的load_module方法。</p>
+<p>load_module的实现主要部分为：</p>
+<pre><code>for path in self.module_choices:
+    realname = path % modname
+    try:
+        __import__(realname)
+    except ImportError:
+        ....
+
+        continue
+</code></pre><p>其中的 self.module<em>choices 为实例化时候传入的[‘flaskext.%s’, ‘flask</em>%s’]。</p>
+<h1 id="hack"><a href="#hack" class="headerlink" title="hack"></a>hack</h1><p>我们修改flask.ext中的源码 在module_choices中增加一个flask<em>extension</em>%s来测试一下<br>效果。</p>
+<pre><code>importer = ExtensionImporter([&apos;flask_%s&apos;, &apos;flaskext.%s&apos;, flask_extension_%s&apos;], __name__)
+</code></pre><p>之后我们写一个flask_extension_whatever模块。</p>
+<p>flask_extension_whatever.py</p>
+<pre><code>class WhatEver(object):
+    def __init__(self, app):
+        if app:
+            self.init_app(app)
+
+    def init_app(self, app):
+        app.extensions[&apos;whatever&apos;]= self
+        self.name = app.config[&apos;WHATEVER_NAME&apos;]
+
+    def say_hello(self, name=None):
+        _name = name or self.name
+        if _name:
+            print(&quot;hello %s&quot; % _name)
+        else:
+            print(&quot;hello&quot;)
+</code></pre><p>setup.py</p>
+<pre><code>from setuptools import setup
+
+setup(
+name=&apos;flask-extension-whatever&apos;,
+version=&apos;0.0.1&apos;,
+py_modules=[&apos;flask_extension_whatever&apos;]
+)
+</code></pre><p>之后安装该模块</p>
+<pre><code>pip install .
+</code></pre><blockquote>
+<p>在我的vps上(python3.6, centos6, virtualenv 15.1.0)使用 python setup.py install默认会安装egg<br>格式的文件，但是python却无法识别出已安装模块，顾使用pip安装。</p>
+</blockquote>
+<p>app.py</p>
+<pre><code>from flask import Flask
+from flask.ext.whatever import WhatEver
+
+app = Flask(__name__)
+app.config[&apos;WHATEVER_NAME&apos;] = &apos;john&apos;
+
+WE = WhatEver(app)
+
+WE.say_hello()
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python-flask-import-hook/" rel="tag"># python flask import-hook</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/30/Import-hook/" rel="next" title="Import-hook">
+                <i class="fa fa-chevron-left"></i> Import-hook
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Panda-pan" />
+          <p class="site-author-name" itemprop="name">Panda-pan</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">Tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#flask-中使用场景"><span class="nav-number">1.</span> <span class="nav-text">flask 中使用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#具体实现"><span class="nav-number">2.</span> <span class="nav-text">具体实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hack"><span class="nav-number">3.</span> <span class="nav-text">hack</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panda-pan</span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
